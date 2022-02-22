@@ -1,2 +1,19 @@
-.b{
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+.bg-img{
+	min-width: 100%;
+	min-height: 50%;
+	height: -webkit-fill-available;
+	margin-bottom: 96px;
+	z-index: -999;
+	position: absolute;
+	background: url("/storage/reimu/background.jpg") center no-repeat;
+	background-size: cover;
 }

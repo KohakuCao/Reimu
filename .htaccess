@@ -1,1 +1,5 @@
- 
+RewriteEngine On
+RewriteBase /
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^s/([0-9]+)$ space.php?uid=$1&%1
+ErrorDocument 404 /404.html
