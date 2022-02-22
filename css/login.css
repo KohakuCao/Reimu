@@ -1,19 +1,55 @@
 body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
+	background: url("/storage/reimu/background.jpg") center no-repeat;
+	background-size: cover;
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+	overflow-x: hidden;
 }
-
 main {
-  flex: 1;
+	flex: 1;
 }
 .bg-img{
 	min-width: 100%;
 	min-height: 50%;
-	height: -webkit-fill-available;
-	margin-bottom: 96px;
+	height:-webkit-fill-available;
+	margin-bottom: 94px;
 	z-index: -999;
-	position: absolute;
+	position: sticky;
 	background: url("/storage/reimu/background.jpg") center no-repeat;
 	background-size: cover;
+	transition: all 0.5s ease-in-out;
+}
+.logo{
+	max-width: 18%;
+}
+.logo-svg{
+	filter: drop-shadow(0 1rem 3rem rbga(0,0,0,0.36));
+	-webkit-filter: drop-shadow(0 1rem 3rem rgba(0,0,0,0.36));
+}
+.bgBlur{
+	filter: blur(2px) brightness(80%);
+}
+.main-form{
+	background: rgba(255,255,255,0.25);
+	border-radius: 20px;
+}
+.form-control{
+	opacity: 0.85;
+}
+.reg-btn{
+	background: rgba(255,255,255,0.2);
+	border: 2px solid #0074d9;
+	color: #0074d9;
+}
+.reg-btn:hover{
+	border: 2px solid #c80a12;
+	color: #c80a12;
+}
+.login-btn:hover{
+	background: #c80a12;
+	border: 2px solid #c80a12;
+}
+.login-btn:active, .login-btn:focus, .reg-btn:active, .reg-btn:focus{
+	box-shadow: 0 0 0 0.25rem rgba(200,10,18,0.5) !important;
 }

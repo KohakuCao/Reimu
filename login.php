@@ -16,18 +16,29 @@ if(isset($_GET["for"])){
 	<link href="/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="/css/login.css" rel="stylesheet" />
 	<script type="application/javascript" src="/js/bootstrap.bundle.min.js"></script>
+	<script type="application/javascript" src="/js/jquery-3.6.0.min.js"></script>
 	<script type="application/javascript" src="/js/login.js"></script>
 </head>
 
 <body>
 	<main>
 		<div class="bg-img" id="bg-img"></div>
-		<div class="container"></div>
+		<div class="container mt-5 mb-3" id="logo" onMouseOver="bgBlur();" onMouseOut="bgDeblur();">
+			<div class="row justify-content-center">
+				<img src="/storage/reimu/logo.svg" class="col-3 col-lg-2 logo-svg" />
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="container main-form col-10 col-lg-4 shadow-lg pb-1" id="main-form" onMouseOver="bgBlur();" onMouseOut="bgDeblur();">
+
+			</div>
+		</div>
 	</main>
 	<footer style="bottom: 0; width: 100%">
-	<div class="container-fluid bg-dark text-white" style="height: 96px">
+	<div class="container-fluid bg-dark text-white" style="height: 96px;z-index:-999">
 		<h5 class="px-auto text-center">Reimu</h5>
 	</div>
 </footer>
+	<script type="application/javascript">toLogin();</script>
 </body>
 </html>

@@ -17,6 +17,7 @@ $id=(function(){
 	<link href="/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="/css/space.css" rel="stylesheet" />
 	<script type="application/javascript" src="/js/bootstrap.bundle.min.js"></script>
+	<script type="application/javascript" src="/js/jquery-3.6.0.min.js"></script>
 	<script type="application/javascript" src="/js/space.js"></script>
 </head>
 
