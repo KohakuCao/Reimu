@@ -15,7 +15,7 @@ main {
 	height:-webkit-fill-available;
 	margin-bottom: 94px;
 	z-index: -999;
-	position: sticky;
+	position: absolute;
 	background: url("/storage/reimu/background.jpg") center no-repeat;
 	background-size: cover;
 	transition: all 0.5s ease-in-out;
