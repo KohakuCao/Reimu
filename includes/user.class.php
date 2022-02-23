@@ -32,28 +32,20 @@ class User{
         $query=mysqli_query($myConnect,"SELECT id FROM `user` WHERE `username`='$this->username';");
         if(mysqli_num_rows($query)!=0){
             echo("username");
-            mysqli_close($myConnect);
-            return 0;
         }
         $query=mysqli_query($myConnect,"SELECT id FROM `user` WHERE `phone`='$this->phone';");
         if(mysqli_num_rows($query)!=0){
             echo("phone");
-            mysqli_close($myConnect);
-            return 0;
         }
         $query=mysqli_query($myConnect,"SELECT id FROM `user` WHERE `email`='$this->email';");
         if(mysqli_num_rows($query)!=0){
             echo("email");
-            mysqli_close($myConnect);
-            return 0;
         }
         $query=mysqli_query($myConnect,"SELECT id FROM `user` WHERE `identity`='$this->identity';");
         if(mysqli_num_rows($query)!=0){
             echo("identity");
-            mysqli_close($myConnect);
-            return 0;
         }
-        echo("pass");
+
         mysqli_close($myConnect);
         return 0;
     }
