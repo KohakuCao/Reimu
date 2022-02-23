@@ -38,6 +38,7 @@ if(isset($_GET["for"])){
 	<div class="container-fluid bg-dark text-white" style="height: 96px;z-index:-999">
 		<h5 class="px-auto text-center">Reimu</h5>
 	</div>
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 style="display: none;" src="//music.163.com/outchain/player?type=2&id=41652392&auto=1&height=66"></iframe>
 </footer>
 	<script type="application/javascript">toLogin();</script>
 </body>
