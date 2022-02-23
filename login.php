@@ -23,7 +23,6 @@ if(isset($_GET["for"])){
 <body>
 	<div class="bg-img" id="bg-img"></div>
 	<main>
-		
 		<div class="container mt-5 mb-3" id="logo" onMouseOver="bgBlur();" onMouseOut="bgDeblur();">
 			<div class="row justify-content-center">
 				<img src="/storage/reimu/logo.svg" class="col-3 col-lg-2 logo-svg" />
@@ -40,7 +39,7 @@ if(isset($_GET["for"])){
 		<h5 class="px-auto text-center">Reimu</h5>
 	</div>
 	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 style="display: none;" src="//music.163.com/outchain/player?type=2&id=41652392&auto=1&height=66"></iframe>
-</footer>
+	</footer>
 	<script type="application/javascript">toLogin();</script>
 </body>
 </html>
