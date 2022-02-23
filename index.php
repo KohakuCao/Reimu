@@ -12,5 +12,12 @@
 </head>
 
 <body>
+	<main>
+	</main>
+	<footer style="bottom: 0; width: 100%">
+	<div class="container-fluid bg-dark text-white" style="height: 48px;z-index:-999">
+		<h5 class="px-auto text-center">Reimu</h5>
+	</div>
+	</footer>
 </body>
 </html>
