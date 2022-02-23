@@ -35,6 +35,14 @@ main {
 .bgBlur{
 	filter: blur(2px) brightness(80%);
 }
+.up-notice{
+	margin: 0;
+	padding: 0;
+	z-index: 999;
+	top: 5px;
+	position: absolute;
+	width: 100%;
+}
 .main-form{
 	background: rgba(255,255,255,0.25);
 	border-radius: 20px;

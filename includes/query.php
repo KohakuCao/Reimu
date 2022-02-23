@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once($_SERVER["DOCUMENT_ROOT"]."includes/user.class.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."includes/upload.class.php");
 if($_POST["f"]=="Check"){
@@ -18,7 +19,7 @@ if($_POST["f"]=="Reg"){
 	$email=$_POST["email"];
 	$qq=$_POST["qq"];
 	$password=$_POST["password"];
-	$ip=$_POST["ip"];
+	$ip=$_SESSION["ip"];
 	$timestamp=time();
 	$url="https://ssl.captcha.qq.com/ticket/verify?Ticket=".$_POST["Ticket"]."&UserIP=".$ip."&Randstr=".$_POST["Randstr"]."&aid=".TC_APPID."&AppSecretKey=".TC_KEY;
 	$capData=file_get_contents($url);
@@ -31,5 +32,13 @@ if($_POST["f"]=="Reg"){
 	}else{
 		echo("孙笑川");
 	}
+}
+
+if($_POST["f"]=="Login"){
+	$login=$_POST["login"];
+	$password=$_POST["password"];
+	$ip=$_SESSION["ip"];
+	$user=new User();
+	echo($user->Login($login,$password,$ip));
 }
 ?>

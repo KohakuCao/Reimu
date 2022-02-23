@@ -2,9 +2,9 @@
 <?php
 session_start();
 require($_SERVER['DOCUMENT_ROOT']."config.php");
-$ip = $_SERVER['REMOTE_ADDR'];
+$_SESSION["ip"] = $_SERVER['REMOTE_ADDR'];
 if (isset($_SESSION["uid"])) {
-	header("/index.php");
+	//header("/index.php");
 }
 if(isset($_GET["for"])){
 	$for=$_GET["for"];
@@ -17,9 +17,10 @@ if(isset($_GET["for"])){
 	<title>登录 - Reimu</title>
 	<link href="/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="/css/login.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 	<script type="application/javascript" src="/js/bootstrap.bundle.min.js"></script>
 	<script type="application/javascript" src="/js/jquery-3.6.0.min.js"></script>
-	<script type="application/javascript">var TC_APPID=<?php echo(TC_APPID); ?>;var ip="<?php echo($ip); ?>";</script>
+	<script type="application/javascript">var TC_APPID=<?php echo(TC_APPID); ?>;</script>
 	<script type="application/javascript" src="/js/login.js"></script>
 	<script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
 </head>
@@ -27,6 +28,7 @@ if(isset($_GET["for"])){
 <body>
 	<div class="bg-img" id="bg-img"></div>
 	<main>
+		<div class="up-notice" id="up-notice"></div>
 		<div class="container mt-5 mb-3" id="logo" onMouseOver="bgBlur();" onMouseOut="bgDeblur();">
 			<div class="row justify-content-center">
 				<img src="/storage/reimu/logo.svg" class="col-3 col-lg-2 logo-svg" />

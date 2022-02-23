@@ -53,7 +53,6 @@ function checkPass(){
 	}
 }
 window.capCallback=function(res){
-	console.log('callback:', res);
 	if(res.ret===0){
 		var username=$("#username").val();
 		var name=$("#name").val();
@@ -70,10 +69,24 @@ window.capCallback=function(res){
 			phone:phone,
 			email:email,
 			qq:qq,
-			password:password,
-			ip:ip
+			password:password
 		},function(data,status){
 			alert(data);
 		});
 	}
+}
+function login(){
+	var login=$("#username").val();
+	var password=$("#password").val();
+	$.post("/includes/query.php",{
+		f:"Login",
+		login:login,
+		password:password
+	},function(data,status){
+		if(data=="1"){
+			$("#up-notice").html('<div class="alert alert-success" role="alert"><i class="bi bi-check-circle-fill"></i>登录成功</div>');
+		}else if(data=="0"){
+			$("#up-notice").html('<div class="alert alert-danger" role="alert"><i class="bi bi-x-circle-fill"></i>登录失败</div>');
+		}
+	})
 }

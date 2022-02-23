@@ -1,4 +1,5 @@
 <?php
+session_start();
 require($_SERVER["DOCUMENT_ROOT"]."config.php");
 class User{
 	public $uid;
@@ -50,8 +51,25 @@ class User{
 		return 0;
 	}
 
-	function Login($password="",$ip="0.0.0.0"){
-		
+	function Login($login="",$password="",$ip="0.0.0.0"){
+		$name=htmlspecialchars($login);
+		$phone=intval($name);
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		$query=mysqli_query($myConnect,"SELECT id,password FROM `user` WHERE `username`='$name' OR `phone`=$phone OR `email`='$name';");
+		if(mysqli_num_rows($query)==0){
+			return 0;
+		}
+		$result=mysqli_fetch_array($query);
+		if(password_verify($password,$result["password"])){
+			$id=intval($result["id"]);
+			$_SESSION["uid"]=intval($result["id"]);
+			mysqli_query($myConnect,"UPDATE `user` SET `last_IP`='$ip' WHERE `id`=$id;");
+			mysqli_close($myConnect);
+			return 1;
+		}else{
+			mysqli_close($myConnect);
+			return 0;
+		}
 	}
 	
 	function Register($password="",$ip="0.0.0.0"){
