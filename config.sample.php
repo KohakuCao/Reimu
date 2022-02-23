@@ -7,4 +7,6 @@ define("MY_PORT",3306); //MySQL端口
 define("MY_USER",""); //MySQL用户
 define("MY_PASS",""); //MySQL密码
 define("MY_DB",""); //MySQL数据库名
+define("TC_APPID",""); //腾讯云天御验证码AppID
+define("TC_KEY",""); //腾讯云天御验证码AppSecretKey
 ?>

@@ -1,6 +1,8 @@
 <!doctype html>
 <?php
 session_start();
+require($_SERVER['DOCUMENT_ROOT']."config.php");
+$ip = $_SERVER['REMOTE_ADDR'];
 if (isset($_SESSION["uid"])) {
 	header("/index.php");
 }
@@ -17,7 +19,9 @@ if(isset($_GET["for"])){
 	<link href="/css/login.css" rel="stylesheet" />
 	<script type="application/javascript" src="/js/bootstrap.bundle.min.js"></script>
 	<script type="application/javascript" src="/js/jquery-3.6.0.min.js"></script>
+	<script type="application/javascript">var TC_APPID=<?php echo(TC_APPID); ?>;var ip="<?php echo($ip); ?>";</script>
 	<script type="application/javascript" src="/js/login.js"></script>
+	<script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
 </head>
 
 <body>
