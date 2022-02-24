@@ -5,7 +5,7 @@ function bgDeblur(){
 	$("#bg-img").removeClass("bgBlur");
 }
 function toReg(){
-	$("#main-form").html('<form><div class="mt-4 mb-2"><!--<label for="username" class="form-label shadow">用户名</label>--><input type="text" class="form-control " placeholder="用户名" aria-describedby="usernameHelp" id="username" onChange="check();" /><div id="usernameHelp" class="form-text"></div></div><div class="my-2"><input type="text" class="form-control " placeholder="姓名" aria-describedby="nameHelp" id="name" /><div id="nameHelp" class="form-text"></div></div><div class="my-2"><input type="tel" class="form-control " placeholder="手机" aria-describedby="phoneHelp" id="phone" onChange="check();" /><div id="phoneHelp" class="form-text"></div></div><div class="my-2"><input type="email" class="form-control " placeholder="E-Mail" aria-describedby="emailHelp" id="email" onChange="check();" /><div id="emailHelp" class="form-text"></div></div><div class="my-2"><input type="tel" class="form-control " placeholder="QQ" aria-describedby="QQHelp" id="qq" /><div id="qqHelp" class="form-text"></div></div><div class="my-2"><!--<label for="password" class="form-label shadow">密码</label>--><input type="password" class="form-control " placeholder="密码" aria-describedby="passHelp" id="password" /><div id="passHelp" class="form-text"></div></div><div class="my-2"><!--<label for="password" class="form-label shadow">密码</label>--><input type="password" class="form-control " placeholder="再次输入密码" aria-describedby="pass2Help" id="password2" /><div id="pass2Help" class="form-text"></div></div></form><div class="row m-0 p-0 justify-content-between"><button class="btn my-2 reg-btn col-4 col-lg-4" onClick="toLogin();">返回登录</button><button class="btn btn-lg my-2 btn-primary login-btn col-4 col-lg-3" id="TencentCaptcha" data-appid="'+TC_APPID+'" data-cbfn="capCallback" data-biz-state="data-biz-state">注册</button></div>');
+	$("#main-form").html('<form><div class="mt-4 mb-2"><!--<label for="username" class="form-label shadow">用户名</label>--><input type="text" class="form-control " placeholder="用户名（不可包含单双引号,&,<,>）" aria-describedby="usernameHelp" id="username" onChange="check();" /><div id="usernameHelp" class="form-text"></div></div><div class="my-2"><input type="text" class="form-control " placeholder="姓名" aria-describedby="nameHelp" id="name" /><div id="nameHelp" class="form-text"></div></div><div class="my-2"><input type="tel" class="form-control " placeholder="手机" aria-describedby="phoneHelp" id="phone" onChange="check();" /><div id="phoneHelp" class="form-text"></div></div><div class="my-2"><input type="email" class="form-control " placeholder="E-Mail" aria-describedby="emailHelp" id="email" onChange="check();" /><div id="emailHelp" class="form-text"></div></div><div class="my-2"><input type="tel" class="form-control " placeholder="QQ" aria-describedby="QQHelp" id="qq" /><div id="qqHelp" class="form-text"></div></div><div class="my-2"><!--<label for="password" class="form-label shadow">密码</label>--><input type="password" class="form-control " placeholder="密码" aria-describedby="passHelp" id="password" /><div id="passHelp" class="form-text"></div></div><div class="my-2"><!--<label for="password" class="form-label shadow">密码</label>--><input type="password" class="form-control " placeholder="再次输入密码" aria-describedby="pass2Help" id="password2" /><div id="pass2Help" class="form-text"></div></div></form><div class="row m-0 p-0 justify-content-between"><button class="btn my-2 reg-btn col-4 col-lg-4" onClick="toLogin();">返回登录</button><button class="btn btn-lg my-2 btn-primary login-btn col-4 col-lg-3" id="TencentCaptcha" data-appid="'+TC_APPID+'" data-cbfn="capCallback" data-biz-state="data-biz-state">注册</button></div>');
 	document.title="注册 - Reimu";
 	new TencentCaptcha(document.getElementById('TencentCaptcha'));
 }
@@ -71,9 +71,21 @@ window.capCallback=function(res){
 			qq:qq,
 			password:password
 		},function(data,status){
-			alert(data);
+			if(data=="1"){
+			$("#up-notice").html('<div class="alert alert-success" role="alert"><i class="bi bi-check-circle-fill"></i>登录成功，返回登录</div>');
+			window.location="/login.php";
+			}else if(data=="孙笑川"){
+				$("#up-notice").html('<div class="alert alert-danger" role="alert" id="log-fail"><i class="bi bi-x-circle-fill"></i>注册失败,验证错误</div>');
+				setTimeout("logFailDisappear()",2000);
+			}else{
+				$("#up-notice").html('<div class="alert alert-danger" role="alert" id="log-fail"><i class="bi bi-x-circle-fill"></i>注册失败,数据错误</div>');
+				setTimeout("logFailDisappear()",2000);
+			}
 		});
 	}
+}
+function logFailDisappear(){
+	$("#log-fail").slideUp(1000);
 }
 function login(){
 	var login=$("#username").val();
@@ -85,8 +97,10 @@ function login(){
 	},function(data,status){
 		if(data=="1"){
 			$("#up-notice").html('<div class="alert alert-success" role="alert"><i class="bi bi-check-circle-fill"></i>登录成功</div>');
+			window.location="/index.php";
 		}else if(data=="0"){
-			$("#up-notice").html('<div class="alert alert-danger" role="alert"><i class="bi bi-x-circle-fill"></i>登录失败</div>');
+			$("#up-notice").html('<div class="alert alert-danger" role="alert" id="log-fail"><i class="bi bi-x-circle-fill"></i>登录失败</div>');
+			setTimeout("logFailDisappear()",2000);
 		}
 	})
 }

@@ -13,11 +13,11 @@ if($_POST["f"]=="Check"){
 }
 
 if($_POST["f"]=="Reg"){
-	$username=$_POST["username"];
-	$name=$_POST["name"];
-	$phone=$_POST["phone"];
-	$email=$_POST["email"];
-	$qq=$_POST["qq"];
+	$username=htmlspecialchars($_POST["username"]);
+	$name=htmlspecialchars($_POST["name"]);
+	$phone=intval(htmlspecialchars($_POST["phone"]));
+	$email=htmlspecialchars($_POST["email"]);
+	$qq=intval(htmlspecialchars($_POST["qq"]));
 	$password=$_POST["password"];
 	$ip=$_SESSION["ip"];
 	$timestamp=time();
@@ -27,8 +27,7 @@ if($_POST["f"]=="Reg"){
 	if($capData->response=="1"){
 		$user=new User();
 		$user->updateObj(username: $username,phone: $phone,email: $email,name: $name,qq: $qq);
-		$result=$user->Register(password: $password,ip: $ip);
-		echo($result);
+		echo(user->Register(password: $password,ip: $ip));
 	}else{
 		echo("孙笑川");
 	}

@@ -2,6 +2,7 @@
 session_start();
 require($_SERVER["DOCUMENT_ROOT"]."config.php");
 class User{
+	//初始化对象属性
 	public $uid;
 	public $username;
 	public $name;
@@ -15,6 +16,7 @@ class User{
 	public $sign;
 
 	function updateObj($uid=0,$username="",$name="",$sex=0,$phone=0,$email="",$identity="",$qq=0,$school="",$introduction="",$sign=""){
+		//更新对象属性
 		$this->uid=$uid;
 		$this->username=$username;
 		$this->name=$name;
@@ -29,6 +31,7 @@ class User{
 	}
 
 	function Check(){
+		//检查是否存在相同用户
 		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
 		$query=mysqli_query($myConnect,"SELECT id FROM `user` WHERE `username`='$this->username';");
 		if(mysqli_num_rows($query)!=0){
@@ -52,7 +55,8 @@ class User{
 	}
 
 	function Login($login="",$password="",$ip="0.0.0.0"){
-		$name=htmlspecialchars($login);
+		//登录
+		$name=htmlspecialchars($login);//防止注入
 		$phone=intval($name);
 		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
 		$query=mysqli_query($myConnect,"SELECT id,password FROM `user` WHERE `username`='$name' OR `phone`=$phone OR `email`='$name';");
@@ -73,7 +77,18 @@ class User{
 	}
 	
 	function Register($password="",$ip="0.0.0.0"){
-	
+		//注册
+		if($this->Check()!=0){
+			return 0;
+		}
+		$password=password_hash($password,PASSWORD_BCRYPT,["cost"=>10]);
+		$sen="INSERT INTO `user` (username,name,password,sex,phone,email,qq,reg_IP) VALUES ('$this->username','$this->name','$password',0,$this->phone,'$this->email',$this->qq,'$ip');"
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		if(mysqli_query($myConnect,$sen)){
+			return 1;
+		}else{
+			return 0;
+		}
 	}
 }
 ?>
