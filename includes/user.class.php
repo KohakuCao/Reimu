@@ -61,6 +61,7 @@ class User{
 		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
 		$query=mysqli_query($myConnect,"SELECT id,password FROM `user` WHERE `username`='$name' OR `phone`=$phone OR `email`='$name';");
 		if(mysqli_num_rows($query)==0){
+			mysqli_close($myConnect);
 			return 0;
 		}
 		$result=mysqli_fetch_array($query);
@@ -81,14 +82,61 @@ class User{
 		if($this->Check()!=0){
 			return 0;
 		}
-		$password=password_hash($password,PASSWORD_BCRYPT,["cost"=>10]);
-		$sen="INSERT INTO `user` (username,name,password,sex,phone,email,qq,reg_IP) VALUES ('$this->username','$this->name','$password',0,$this->phone,'$this->email',$this->qq,'$ip');"
 		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		$check=mysqli_query($myConnect,"SELECT reg_time FROM `user` WHERE `reg_IP`='$ip';");
+		if(mysqli_num_rows($check)>0){
+			$check=mysqli_fetch_array($check);
+			if(strtotime($check["reg_time"])+strtotime("+1day")>time()){
+				mysqli_close($myConnect);
+				return 0;
+			}
+		}
+		$password=password_hash($password,PASSWORD_BCRYPT,["cost"=>10]);
+		$sen="INSERT INTO `user` (username,name,password,sex,phone,email,qq,reg_IP) VALUES ('$this->username','$this->name','$password',0,$this->phone,'$this->email',$this->qq,'$ip');";
 		if(mysqli_query($myConnect,$sen)){
 			return 1;
 		}else{
 			return 0;
 		}
+	}
+	
+	function GetInfo(){
+		//从数据库获取信息，并为对象设置属性
+		$uid=$this->uid;
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		$query=mysqli_query($myConnect,"SELECT * FROM `user` WHERE `id`=$uid;");
+		$result=mysqli_fetch_array($query);
+		$this->updateObj($uid,$result["username"],$result["name"],intval($result["sex"]),intval($result["phone"]),$result["email"],$result["identity"],intval($result["qq"]),$result["school"],$result["introduction"],$result["sign"]);
+		return true;
+	}
+	
+	function UpdateInfo($password,$s=["phone"=>0,"email"=>0,"qq"=>0]){
+		//修改资料
+		$uid=$this->uid;
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		$query=mysqli_query($myConnect,"SELECT password FROM `user` WHERE `id`=$uid;");
+		if(mysqli_num_rows($query)==0){
+			mysqli_close($myConnect);
+			return 0;
+		}
+		$result=mysqli_fetch_array($query);
+		if(password_verify($password,$result["password"])){
+			$p=$s["phone"];
+			$e=$s["email"];
+			$q=$s["qq"];
+			mysqli_query($myConnect,"UPDATE `user` SET `sex`=$this->sex,`phone`=$this->phone,`email`='$this->email',`qq`=$this->qq,`school`='$this->school',`identity`='$this->identity',`school`='$this->school',`introduction`='$this->introduction',`sign`='$this->sign' WHERE `id`=$uid;");
+			mysqli_query($myConnect,"UPDATE `info_display` SET `phone`=$p,`email`=$e,`qq`=$q WHERE `id`=$uid;");
+			mysqli_close($myConnect);
+			return 1;
+		}else{
+			mysqli_close($myConnect);
+			return 0;
+		}
+		
+	}
+	
+	function AddExperience(){
+	
 	}
 }
 ?>
