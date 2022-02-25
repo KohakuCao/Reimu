@@ -56,10 +56,14 @@ window.capCallback=function(res){
 	if(res.ret===0){
 		var username=$("#username").val();
 		var name=$("#name").val();
-		var phone=$("#phone").val();
+		var phone=parseInt($("#phone").val());
 		var email=$("#email").val();
-		var qq=$("#qq").val();
+		var qq=parseInt($("#qq").val());
 		var password=$("#password").val();
+		if(username==""||name==""||phone==null||email==""||qq==null||password==""){
+			alert("输入不完整");
+			return false;
+		}
 		$.post("/includes/query.php",{
 			f:"Reg",
 			Ticket:res.ticket,

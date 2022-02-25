@@ -110,29 +110,19 @@ class User{
 		return true;
 	}
 	
-	function UpdateInfo($password,$s=["phone"=>0,"email"=>0,"qq"=>0]){
+	function UpdateInfo($s=["phone"=>0,"email"=>0,"qq"=>0]){
 		//修改资料
 		$uid=$this->uid;
 		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
-		$query=mysqli_query($myConnect,"SELECT password FROM `user` WHERE `id`=$uid;");
-		if(mysqli_num_rows($query)==0){
-			mysqli_close($myConnect);
-			return 0;
-		}
-		$result=mysqli_fetch_array($query);
-		if(password_verify($password,$result["password"])){
-			$p=$s["phone"];
-			$e=$s["email"];
-			$q=$s["qq"];
-			mysqli_query($myConnect,"UPDATE `user` SET `sex`=$this->sex,`phone`=$this->phone,`email`='$this->email',`qq`=$this->qq,`school`='$this->school',`identity`='$this->identity',`school`='$this->school',`introduction`='$this->introduction',`sign`='$this->sign' WHERE `id`=$uid;");
-			mysqli_query($myConnect,"UPDATE `info_display` SET `phone`=$p,`email`=$e,`qq`=$q WHERE `id`=$uid;");
+		$p=$s["phone"];
+		$e=$s["email"];
+		$q=$s["qq"];
+		if(mysqli_query($myConnect,"UPDATE `user` SET `sex`=$this->sex,`phone`=$this->phone,`email`='$this->email',`qq`=$this->qq,`school`='$this->school',`identity`='$this->identity',`school`='$this->school',`introduction`='$this->introduction',`sign`='$this->sign' WHERE `id`=$uid;") && mysqli_query($myConnect,"UPDATE `info_display` SET `phone`=$p,`email`=$e,`qq`=$q WHERE `id`=$uid;")){
 			mysqli_close($myConnect);
 			return 1;
 		}else{
-			mysqli_close($myConnect);
 			return 0;
 		}
-		
 	}
 	
 	function GetExperience(){
