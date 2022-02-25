@@ -119,6 +119,10 @@ if($_POST["f"]=="DelExp"){
 	}
 }
 
+if($_POST["f"]=="Logout"){
+	session_destroy();
+}
+
 if($_POST["f"]=="ChengeAva"){
 	$file=$_FILES["ava"];
 	$uid=$_SESSION["uid"];

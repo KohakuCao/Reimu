@@ -107,7 +107,17 @@ class User{
 		$query=mysqli_query($myConnect,"SELECT * FROM `user` WHERE `id`=$uid;");
 		$result=mysqli_fetch_array($query);
 		$this->updateObj($uid,$result["username"],$result["name"],intval($result["sex"]),intval($result["phone"]),$result["email"],$result["identity"],intval($result["qq"]),$result["school"],$result["introduction"],$result["sign"]);
-		return true;
+		$query=mysqli_query($myConnect,"SELECT * FROM `info_display` WHERE `uid`=$uid;");
+		if(mysqli_num_rows($query)==0){
+			$display=[
+				"phone"=>0,
+				"email"=>0,
+				"qq"=>0
+			];
+		}else{
+			$display=mysqli_fetch_array($query);
+		}
+		return $display;
 	}
 	
 	function UpdateInfo($s=["phone"=>0,"email"=>0,"qq"=>0]){

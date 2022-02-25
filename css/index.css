@@ -10,3 +10,16 @@ body {
 main {
 	flex: 1;
 }
+.logo{
+	min-height: 64px;
+}
+.user-card{
+	height: 256px;
+	background-size: cover !important;
+}
+.img-shadow{
+	filter: drop-shadow(0 0rem 1rem rgba(0,0,0,.50));
+}
+.text-shadow{
+	text-shadow: 0 0rem 1rem rgba(0,0,0,.50);
+}
