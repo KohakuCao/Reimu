@@ -27,7 +27,7 @@ if($_POST["f"]=="Reg"){
 	if($capData->response=="1"){
 		$user=new User();
 		$user->updateObj(username: $username,phone: $phone,email: $email,name: $name,qq: $qq);
-		echo(user->Register(password: $password,ip: $ip));
+		echo($user->Register(password: $password,ip: $ip));
 	}else{
 		echo("孙笑川");
 	}
@@ -39,5 +39,28 @@ if($_POST["f"]=="Login"){
 	$ip=$_SESSION["ip"];
 	$user=new User();
 	echo($user->Login($login,$password,$ip));
+}
+
+if($_POST["f"]=="UpdatePass"){
+	$uid=$_SESSION["uid"];
+	$op=$_POST["oldPassword"];
+	$np=$_POST["newPassword"];
+	$ip=$_SESSION["ip"];
+	$timestamp=time();
+	$url="https://ssl.captcha.qq.com/ticket/verify?Ticket=".$_POST["Ticket"]."&UserIP=".$ip."&Randstr=".$_POST["Randstr"]."&aid=".TC_APPID."&AppSecretKey=".TC_KEY;
+	$capData=file_get_contents($url);
+	$capData=json_decode($capData);
+	if($capData->response=="1"){
+		$user=new User();
+		$user->updateObj(uid: $uid);
+		echo($user->UpdatePass($op,$np));
+	}else{
+		echo("孙笑川");
+	}
+}
+
+if($_POST["f"]=="UpdateInfo"){
+	$uid=$_SESSION["uid"];
+	
 }
 ?>

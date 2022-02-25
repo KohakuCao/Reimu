@@ -135,8 +135,67 @@ class User{
 		
 	}
 	
-	function AddExperience(){
+	function GetExperience(){
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		$result=mysqli_query($myConnect,"SELECT * FROM `experience` WHERE `uid`=$this->uid;");
+		if(mysqli_num_rows($result)==0){
+			mysqli_close($myConnect);
+			return 0;
+		}
+		$exp=[];
+		while($row=mysqli_fetch_array($result)){
+			array_push($exp,$row);
+		}
+		mysqli_close($myConnect);
+		return $exp;
+	}
 	
+	function AddExperience(array $exp){
+		$name=$exp["name"];
+		$committee=$exp["committee"];
+		$topic=$exp["topic"];
+		$seat=$exp["seat"];
+		$title=$exp["title"];
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		$sen="INSERT INTO `experience` (uid,name,committee,topic,seat,title) VALUES ($this->uid,'$name','$committee','$topic','$seat','$title');";
+		if(mysqli_query($myConnect,$sen)){
+			mysqli_close($myConnect);
+			return 1;
+		}else{
+			mysqli_close($myConnect);
+			return 0;
+		}
+	}
+	
+	function DeleteExperience($id){
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		if(mysqli_query($myConnect,"DELETE FROM `experience` WHERE `id`=$id;")){
+			mysqli_close($myConnect);
+			return 1;
+		}else{
+			mysqli_close($myConnect);
+			return 0;
+		}
+	}
+	
+	function UpdatePass($op,$np){
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		$query=mysqli_query($myConnect,"SELECT password FROM `user` WHERE `id`=$this->uid;");
+		$result=mysqli_fetch_array($query);
+		if(password_verify($op,$result["password"])){
+			$np=password_hash($np,PASSWORD_BCRYPT,["cost"=>10]);
+			$query=mysqli_query($myConnect,"UPDATE `user` SET `password`='$np' WHERE `id`=$this->uid;");
+			if($query){
+				mysqli_close($myConnect);
+				return 1;
+			}else{
+				mysqli_close($myConnect);
+				return 0;
+			}
+		}else{
+			mysqli_close($myConnect);
+			return 0;
+		}
 	}
 }
 ?>

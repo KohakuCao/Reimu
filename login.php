@@ -29,9 +29,9 @@ if(isset($_GET["for"])){
 	<div class="bg-img" id="bg-img"></div>
 	<main>
 		<div class="up-notice" id="up-notice"></div>
-		<div class="container mt-5 mb-3" id="logo" onMouseOver="bgBlur();" onMouseOut="bgDeblur();">
+		<div class="container mt-5 mb-3" id="logo">
 			<div class="row justify-content-center">
-				<img src="/storage/reimu/logo.svg" class="col-3 col-lg-2 logo-svg" />
+				<img src="/storage/reimu/logo.svg" class="col-3 col-lg-2 logo-svg" onMouseOver="bgBlur();" onMouseOut="bgDeblur();" />
 			</div>
 		</div>
 		<div class="row justify-content-center">

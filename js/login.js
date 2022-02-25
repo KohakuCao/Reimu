@@ -73,7 +73,7 @@ window.capCallback=function(res){
 		},function(data,status){
 			if(data=="1"){
 			$("#up-notice").html('<div class="alert alert-success" role="alert"><i class="bi bi-check-circle-fill"></i>登录成功，返回登录</div>');
-			window.location="/login.php";
+			setTimeout("window.location='/login'",2000);
 			}else if(data=="孙笑川"){
 				$("#up-notice").html('<div class="alert alert-danger" role="alert" id="log-fail"><i class="bi bi-x-circle-fill"></i>注册失败,验证错误</div>');
 				setTimeout("logFailDisappear()",2000);
@@ -97,7 +97,7 @@ function login(){
 	},function(data,status){
 		if(data=="1"){
 			$("#up-notice").html('<div class="alert alert-success" role="alert"><i class="bi bi-check-circle-fill"></i>登录成功</div>');
-			window.location="/index.php";
+			setTimeout("window.location='/'",2000);
 		}else if(data=="0"){
 			$("#up-notice").html('<div class="alert alert-danger" role="alert" id="log-fail"><i class="bi bi-x-circle-fill"></i>登录失败</div>');
 			setTimeout("logFailDisappear()",2000);
