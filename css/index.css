@@ -17,9 +17,18 @@ main {
 	height: 256px;
 	background-size: cover !important;
 }
+.nav-pills .nav-link.active{
+	background-color: #c80a12 !important;
+}
+.nav-link{
+	color: #c80a12;
+}
 .img-shadow{
 	filter: drop-shadow(0 0rem 1rem rgba(0,0,0,.50));
 }
 .text-shadow{
 	text-shadow: 0 0rem 1rem rgba(0,0,0,.50);
+}
+.form-text{
+	text-shadow: 0 0 0.25rem rgba(0,0,0,0.5);
 }

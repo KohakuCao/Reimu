@@ -35,19 +35,31 @@ class User{
 		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
 		$query=mysqli_query($myConnect,"SELECT id FROM `user` WHERE `username`='$this->username';");
 		if(mysqli_num_rows($query)!=0){
-			echo("username");
+			$res=mysqli_fetch_array($query);
+			if(intval($res["id"])!=$this->uid){
+				echo("username");
+			}
 		}
 		$query=mysqli_query($myConnect,"SELECT id FROM `user` WHERE `phone`='$this->phone';");
 		if(mysqli_num_rows($query)!=0){
-			echo("phone");
+			$res=mysqli_fetch_array($query);
+			if(intval($res["id"])!=$this->uid) {
+				echo("phone");
+			}
 		}
 		$query=mysqli_query($myConnect,"SELECT id FROM `user` WHERE `email`='$this->email';");
 		if(mysqli_num_rows($query)!=0){
-			echo("email");
+			$res=mysqli_fetch_array($query);
+			if(intval($res["id"])!=$this->uid) {
+				echo("email");
+			}
 		}
 		$query=mysqli_query($myConnect,"SELECT id FROM `user` WHERE `identity`='$this->identity';");
 		if(mysqli_num_rows($query)!=0){
-			echo("identity");
+			$res=mysqli_fetch_array($query);
+			if(intval($res["id"])!=$this->uid) {
+				echo("identity");
+			}
 		}
 
 		mysqli_close($myConnect);
@@ -94,8 +106,10 @@ class User{
 		$password=password_hash($password,PASSWORD_BCRYPT,["cost"=>10]);
 		$sen="INSERT INTO `user` (username,name,password,sex,phone,email,qq,reg_IP) VALUES ('$this->username','$this->name','$password',0,$this->phone,'$this->email',$this->qq,'$ip');";
 		if(mysqli_query($myConnect,$sen)){
+			mysqli_close($myConnect);
 			return 1;
 		}else{
+			mysqli_close($myConnect);
 			return 0;
 		}
 	}
@@ -127,10 +141,17 @@ class User{
 		$p=$s["phone"];
 		$e=$s["email"];
 		$q=$s["qq"];
-		if(mysqli_query($myConnect,"UPDATE `user` SET `sex`=$this->sex,`phone`=$this->phone,`email`='$this->email',`qq`=$this->qq,`school`='$this->school',`identity`='$this->identity',`school`='$this->school',`introduction`='$this->introduction',`sign`='$this->sign' WHERE `id`=$uid;") && mysqli_query($myConnect,"UPDATE `info_display` SET `phone`=$p,`email`=$e,`qq`=$q WHERE `id`=$uid;")){
+		$isDisplaySettingExist=mysqli_query($myConnect,"SELECT * FROM `info_display` WHERE `uid`=$uid;");
+		if(mysqli_num_rows($isDisplaySettingExist)==0){
+			mysqli_query($myConnect,"INSERT INTO `info_display` (uid,phone,email,qq) VALUES ($uid,$p,$e,$q);");
+		}else{
+			mysqli_query($myConnect,"UPDATE `info_display` SET `phone`=$p,`email`=$e,`qq`=$q WHERE `uid`=$uid;");
+		}
+		if(mysqli_query($myConnect,"UPDATE `user` SET `sex`=$this->sex,`phone`=$this->phone,`email`='$this->email',`qq`=$this->qq,`school`='$this->school',`identity`='$this->identity',`school`='$this->school',`introduction`='$this->introduction',`sign`='$this->sign' WHERE `id`=$uid;")){
 			mysqli_close($myConnect);
 			return 1;
 		}else{
+			mysqli_close($myConnect);
 			return 0;
 		}
 	}

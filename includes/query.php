@@ -3,12 +3,17 @@ session_start();
 require_once($_SERVER["DOCUMENT_ROOT"]."includes/user.class.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."includes/upload.class.php");
 if($_POST["f"]=="Check"){
+	if(isset($_SESSION["uid"])){
+		$uid=$_SESSION["uid"];
+	}else{
+		$uid=0;
+	}
 	$username=$_POST["username"];
 	$phone=$_POST["phone"];
 	$email=$_POST["email"];
 	$identity=$_POST["identity"];
 	$user=new User();
-	$user->updateObj(username: $username,phone: $phone,email: $email,identity: $identity);
+	$user->updateObj(uid:$uid, username: $username,phone: $phone,email: $email,identity: $identity);
 	$user->Check();
 }
 
@@ -63,7 +68,7 @@ if($_POST["f"]=="UpdatePass"){
 }
 
 if($_POST["f"]=="UpdateInfo"){
-	$uid=$_SESSION["uid"];
+	$uid=intval($_SESSION["uid"]);
 	$sex=intval($_POST["sex"]);
 	$phone=intval($_POST["phone"]);
 	$email=htmlspecialchars($_POST["email"]);
@@ -71,18 +76,18 @@ if($_POST["f"]=="UpdateInfo"){
 	$identity=htmlspecialchars($_POST["identity"]);
 	$school=htmlspecialchars($_POST["school"]);
 	$introduction=htmlspecialchars($_POST["introduction"]);
-	$sign=htmlspecialchars($_POST["introduction"]);
+	$sign=htmlspecialchars($_POST["sign"]);
 	if(strlen($sign)>100){
 		$sign=mb_substr($sign,0,99)."……";
 	}
 	$s=[
 		"phone"=>intval($_POST["phone_display"]),
 		"email"=>intval($_POST["email_display"]),
-		"qq"=>intval($_POST["qq_dispaly"])
+		"qq"=>intval($_POST["qq_display"])
 	];
 	$user=new User();
 	$user->updateObj($uid,"","",$sex,$phone,$email,$identity,$qq,$school,$introduction,$sign);
-	echo($user->UpdateInfo());
+	echo($user->UpdateInfo($s));
 }
 
 if($_POST["f"]=="AddExp"){
@@ -121,6 +126,7 @@ if($_POST["f"]=="DelExp"){
 
 if($_POST["f"]=="Logout"){
 	session_destroy();
+	echo("1");
 }
 
 if($_POST["f"]=="ChengeAva"){

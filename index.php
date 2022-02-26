@@ -31,6 +31,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 <title>个人面板 - Reimu</title>
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/css/index.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 <script type="application/javascript" src="/js/bootstrap.bundle.min.js"></script> 
 <script type="application/javascript" src="/js/jquery-3.6.0.min.js"></script> 
 <script type="application/javascript" src="/js/index.js"></script>
@@ -56,6 +57,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 	</div>
 </nav>
 <main>
+	<div class="up-notice" id="up-notice"></div>
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -70,9 +72,10 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col-3 border border-dark p-2 p-md-3 mb-auto rounded">
+			<div class="col-3 border border-dark p-1 p-md-3 mb-auto rounded">
 				<div class="nav nav-pills flex-column" id="pills-tab" role="tablist" aria-orientation="vertical">
-					<button class="nav-link active" id="info-tab" data-bs-toggle="pill" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">个人资料</button>
+					<button class="nav-link active" id="info-tab" data-bs-toggle="pill" data-bs-target="#info-panel" type="button" role="tab" aria-controls="info-panel" aria-selected="true">个人资料</button>
+					<button class="nav-link" id="experience-tab" data-bs-toggle="pill" data-bs-target="#experience-panel" type="button" role="tab" aria-controls="experience-panel" aria-selected="true">参会经历</button>
 					<button class="nav-link" id="avatar-tab" data-bs-toggle="pill" data-bs-target="#avatar-panel" type="button" role="tab" aria-controls="avatar-panel" aria-selected="false">修改头像</button>
 					<button class="nav-link" id="bg-tab" data-bs-toggle="pill" data-bs-target="#bg-panel" type="button" role="tab" aria-controls="bg-panel" aria-selected="false">名片背景</button>
 					<button class="nav-link" id="pass-tab" data-bs-toggle="pill" data-bs-target="#pass-panel" type="button" role="tab" aria-controls="pass-panel" aria-selected="false">修改密码</button>
@@ -81,7 +84,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 			</div>
 			<div class="col-9">
 				<div class="tab-content">
-					<div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+					<div class="tab-pane fade show active" id="info-panel" role="tabpanel" aria-labelledby="info-tab">
 						<h4> 个人资料 </h4>
 						<div class="my-4">
 							<form id="information">
@@ -101,7 +104,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 								</div>
 								<div class="mb-3">
 									<label class="form-label" for="identity">身份证号</label>
-									<input type="text" class="form-control" id="identity" placeholder="我们会保护您的隐私" aria-describedby="identityHelp" value="<?php echo($user->identity); ?>">
+									<input type="text" class="form-control" id="identity" placeholder="我们会保护您的隐私" aria-describedby="identityHelp" value="<?php echo($user->identity); ?>" onChange="check();">
 									<label id="identityHelp" class="form-text"></label>
 								</div>
 								<div class="mb-3">
@@ -113,17 +116,22 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 										<option id="sex3" value="3" <?php if($user->sex==3){echo("selected");} ?>>魂魄妖梦</option>
 									</select>
 								</div>
+								<div class="mb-3">
+									<label class="form-label" for="school">学校</label>
+									<input type="text" class="form-control" id="school" placeholder="北京航空职业技术学院" aria-describedby="schoolHelp" value="<?php echo($user->school); ?>">
+									<label id="identityHelp" class="form-text"></label>
+								</div>
 								<hr class="my-4">
 								<div class="mb-3">
 									<label class="form-label" for="email">邮箱</label>
-									<input type="text" class="form-control" id="email" aria-describedby="emailHelp" value="<?php echo("$user->email"); ?>" />
+									<input type="text" class="form-control" id="email" aria-describedby="emailHelp" value="<?php echo("$user->email"); ?>" onChange="check();" />
 									<label class="form-text" id="emailHelp"></label>
 									<input class="form-check-input" type="checkbox" id="email_display" <?php if($display["email"]==1){echo("checked");} ?> />
 									<label class="form-check-label" for="email_display">在名片展示</label>
 								</div>
 								<div class="mb-3">
 									<label class="form-label" for="phone">手机</label>
-									<input type="text" class="form-control" id="phone" aria-describedby="phoneHelp" value="<?php echo("$user->phone"); ?>" />
+									<input type="text" class="form-control" id="phone" aria-describedby="phoneHelp" value="<?php echo("$user->phone"); ?>" onChange="check();" />
 									<label class="form-text" id="phoneHelp"></label>
 									<input class="form-check-input" type="checkbox" id="phone_display" <?php if($display["phone"]==1){echo("checked");} ?> />
 									<label class="form-check-label" for="phone_display">在名片展示</label>
@@ -152,9 +160,10 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 							</div>
 						</div>
 					</div>
+					<div class="tab-pane fade" id="experience-panel" role="tabpanel" aria-labelledby="experience-tab"></div>
 					<div class="tab-pane fade" id="avatar-panel" role="tabpanel" aria-labelledby="avatar-tab"> </div>
-					<div class="tab-pane fade" id="bg-panel" role="tabpanel" aria-labelledby="avatar-tab"> </div>
-					<div class="tab-pane fade" id="pass-panel" role="tabpanel" aria-labelledby="avatar-tab"> </div>
+					<div class="tab-pane fade" id="bg-panel" role="tabpanel" aria-labelledby="bg-tab"> </div>
+					<div class="tab-pane fade" id="pass-panel" role="tabpanel" aria-labelledby="passr-tab"> </div>
 				</div>
 			</div>
 		</div>
@@ -172,8 +181,21 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-				<button type="button" class="btn btn-danger" onClick="">退出</button>
+				<button type="button" class="btn btn-danger" onClick="Logout();">退出</button>
 			</div>
+		</div>
+	</div>
+</div>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+	<div id="updateSucToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+		<div class="toast-header">
+			<img src="/storage/reimu/logo.svg" class="rounded me-2" style="width: 24px;height: 24px" />
+			<strong class="me-auto">灵Reimu</strong>
+			<small>现在</small>
+			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		</div>
+		<div class="toast-body">
+			<p>修改成功</p>
 		</div>
 	</div>
 </div>
