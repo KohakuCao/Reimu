@@ -119,6 +119,10 @@ class User{
 		$uid=$this->uid;
 		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
 		$query=mysqli_query($myConnect,"SELECT * FROM `user` WHERE `id`=$uid;");
+		if(mysqli_num_rows($query)==0){
+			mysqli_close($myConnect);
+			return false;
+		}
 		$result=mysqli_fetch_array($query);
 		$this->updateObj($uid,$result["username"],$result["name"],intval($result["sex"]),intval($result["phone"]),$result["email"],$result["identity"],intval($result["qq"]),$result["school"],$result["introduction"],$result["sign"]);
 		$query=mysqli_query($myConnect,"SELECT * FROM `info_display` WHERE `uid`=$uid;");
@@ -126,11 +130,13 @@ class User{
 			$display=[
 				"phone"=>0,
 				"email"=>0,
-				"qq"=>0
+				"qq"=>0,
+				"experience"=>0
 			];
 		}else{
 			$display=mysqli_fetch_array($query);
 		}
+		mysqli_close($myConnect);
 		return $display;
 	}
 	
