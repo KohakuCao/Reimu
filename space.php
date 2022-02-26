@@ -44,7 +44,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 <main>
 	<div class="container-fluid p-0">
 		<div class="row justify-content-center">
-			<div class="card border-0 col-12 col-md-10 col-lg-9" onMouseOver="addNb();" onMouseOut="delNb();">
+			<div class="card border-0 col-12 col-md-10 col-lg-9 shadow p-0" onMouseOver="addNb();" onMouseOut="delNb();">
 				<img id="bgimg" class="card-img-top bgimg rounded" src="/storage/bg/<?php echo($bg); ?>" alt="Card image"/>
 				<div class="px-5 py-3 card-body text-white rounded card-img-overlay">
 					<div class="row"> <img class="rounded-circle p-0 col-3 img-shadow" style="height:96px;width:96px;" src="/storage/avatar/<?php echo($avatar); ?>">
@@ -129,7 +129,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 		</div>
 	</div>
 </main>
-<footer style="bottom: 0; width: 100%">
+<footer class="mt-5" style="bottom: 0; width: 100%">
 	<p class="text-center"><a href="/login">获取我的模联名片</a></p>
 	<div class="container-fluid bg-dark text-white" style="height: 96px;z-index:-999">
 		<h5 class="px-auto text-center">Reimu模联名片</h5>

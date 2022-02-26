@@ -161,7 +161,29 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 						</div>
 					</div>
 					<div class="tab-pane fade" id="experience-panel" role="tabpanel" aria-labelledby="experience-tab"></div>
-					<div class="tab-pane fade" id="avatar-panel" role="tabpanel" aria-labelledby="avatar-tab"> </div>
+					<div class="tab-pane fade" id="avatar-panel" role="tabpanel" aria-labelledby="avatar-tab">
+						<div class="container space-2">
+						<div class="row">
+						    <div class="col col-12 col-md-6 col-lg-7 mb-2">
+							<h5 class="mb-4 text-center">原头像</h5>
+							<div class="img-container">
+							<img class="mx-auto" id="image" src="/storage/avatar/<?php echo($avatar); ?>" />
+							</div>
+						    </div>
+						    <div class="col col-12 col-md-6 col-lg-5">
+							<h5 class="mt-4 text-center">新头像</h5>
+							<div class="text-center">
+							    <form id="avatar-form" action="/a" method="post" enctype="multipart/form-data">
+									<label for="newAva" class="form-label">选择图片</label>
+								    <input id="newAva" name="newAva" type="file" accept="image/*" class="form-control" />
+							    <button type="submit" class="btn btn-primary my-4" name="avatar-save"><i class="bi bi-send-fill"></i>保存</button>
+							    </div>
+							    </form>
+							</div>
+						    </div>
+						</div>
+					    </div>
+					</div>
 					<div class="tab-pane fade" id="bg-panel" role="tabpanel" aria-labelledby="bg-tab"> </div>
 					<div class="tab-pane fade" id="pass-panel" role="tabpanel" aria-labelledby="passr-tab"> </div>
 				</div>
