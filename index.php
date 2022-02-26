@@ -161,7 +161,37 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 						</div>
 					</div>
 					<div class="tab-pane fade" id="experience-panel" role="tabpanel" aria-labelledby="experience-tab"></div>
-					<div class="tab-pane fade" id="avatar-panel" role="tabpanel" aria-labelledby="avatar-tab"> </div>
+					<div class="tab-pane fade" id="avatar-panel" role="tabpanel" aria-labelledby="avatar-tab">
+					    <div class="container space-2">
+						<div class="row">
+						    <div class="col col-12 col-md-6 col-lg-7 mb-8">
+							<h3 class="h5 mb-4 text-center" style="max-height: 150px;">原图</h3>
+							<div class="img-container">
+							<img id="image" src="img/kni.webp">
+							</div>
+						    </div>
+						    <div class="col col-12 col-md-6 col-lg-5">
+							<h3 class="h5 mb-4 text-center">预览</h3>
+							<div class="d-flex justify-content-around  align-items-center mb-6">
+							    <div class="img-preview u-lg-avatar img-fluid rounded-circle"><img src="img/kni.webp" class=" img-fluid rounded-circle" style="max-height: 96px;"></div>
+							</div>
+							<div class="text-center">
+							    <form id="avatar-form" class="mt-5 j-submit-once" action="/user/avatar" method="post">
+							    <input type="hidden" name="_csrf" value="PZUIoZHPD1OX540YqwKhHhTTwDissB1IIxT2wYZYAVty00GQ_oBLKdaf626YZJQvXaefd-7ZLT9kVp-H0gkydg==">                
+								<label class="btn btn-success file-attachment-btn " for="fileAttachmentBtn">选择新图片
+								    <input id="input" name="image" type="file" accept="image/*" class="file-attachment-btn__label">
+								</label>
+							    <button type="submit" class="btn btn-primary" name="avatar-save" disabled="disabled"><span class="fa fa-save"></span> 保存</button>
+							    <div class="form-group field-avatar-dataurl required">
+								<input type="hidden" id="avatar-dataurl" class="form-control" name="Avatar[dataUrl]">
+								<div class="help-block"></div>
+							    </div>
+							    </form>
+							</div>
+						    </div>
+						</div>
+					    </div>
+					</div>
 					<div class="tab-pane fade" id="bg-panel" role="tabpanel" aria-labelledby="bg-tab"> </div>
 					<div class="tab-pane fade" id="pass-panel" role="tabpanel" aria-labelledby="passr-tab"> </div>
 				</div>
