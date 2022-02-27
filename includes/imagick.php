@@ -1,7 +1,7 @@
 <?php
 class lib_image_imagick
 {
-	private $image = null;
+	public $image = null;
 	private $type = null;
 	// 构造函数
 	public function __construct(){}

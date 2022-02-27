@@ -23,7 +23,11 @@ class User{
 		$this->sex=$sex;
 		$this->phone=$phone;
 		$this->email=$email;
-		$this->identity=strtoupper($identity);
+		if($identity!=""){
+		    $this->identity=strtoupper($identity);
+		}else{
+		    $this->identity="";
+		}
 		$this->qq=$qq;
 		$this->school=$school;
 		$this->introduction=$introduction;

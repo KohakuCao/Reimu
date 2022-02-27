@@ -26,6 +26,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 } else {
 	$bg = "0.jpg";
 }
+
 ?>
 <html>
 <head>
@@ -71,7 +72,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 			<div class="col-12 col-md-10 col-lg-9" id="infoContainer">
 				<h4 class="py-2 mt-4 mx-2">个人简介</h4>
 				<hr class="my-2 mx-2" />
-				<p class="py-2 mx-2"><?php echo($user->introduction); ?></p>
+				<p class="py-2 mx-2"><?php echo(str_replace("\n","<br />",$user->introduction)); ?></p>
 				<h4 class="py-2 mt-4 mx-2">联系方式</h4>
 				<hr class="my-2 mx-2" />
 				<p class="py-2 mx-2">

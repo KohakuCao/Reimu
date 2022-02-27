@@ -62,7 +62,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 		<div class="row">
 			<div class="col-12">
 				<div class="my-3 p-4 text-white rounded user-card shadow" style="background: url(/storage/bg/<?php echo($bg); ?>) center no-repeat;">
-					<h1 class="text-shadow"><img src="/storage/avatar/<?php echo($avatar); ?>" class="rounded-circle mx-2 p-1 img-shadow" style="max-height: 96px"><?php echo($user->name); ?></h1>
+					<h1 class="text-shadow"><img src="/storage/avatar/<?php echo($avatar); ?>" class="rounded-circle mx-2 p-1 img-shadow" style="height: 96px;width: 96px"><?php echo($user->name); ?></h1>
 					<p class="lead text-shadow">用户名：<?php echo($user->username); ?></p>
 					<hr class="my2">
 					<p class="text-shadow"><?php echo($user->sign); ?></p>
@@ -164,28 +164,52 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 					<div class="tab-pane fade" id="avatar-panel" role="tabpanel" aria-labelledby="avatar-tab">
 						<div class="container space-2">
 						<div class="row">
-						    <div class="col col-12 col-md-6 col-lg-7 mb-2">
+						    <div class="col col-12 col-md-6 col-lg-7 mb-5">
 							<h5 class="mb-4 text-center">原头像</h5>
 							<div class="img-container">
-							<img class="mx-auto" id="image" src="/storage/avatar/<?php echo($avatar); ?>" />
+							<img class="mx-auto" id="image" src="/storage/avatar/<?php echo($avatar); ?>" style="max-height:256px;max-width:256px;" />
 							</div>
 						    </div>
 						    <div class="col col-12 col-md-6 col-lg-5">
-							<h5 class="mt-4 text-center">新头像</h5>
+							<h5 class="text-center">新头像</h5>
 							<div class="text-center">
-							    <form id="avatar-form" action="/a" method="post" enctype="multipart/form-data">
+							    <form id="avatar-form" action="/includes/query.php" method="post" enctype="multipart/form-data">
 									<label for="newAva" class="form-label">选择图片</label>
+									<input id="f" name="f" type="text" value="UpdateAva" disabled style="display: none" />
 								    <input id="newAva" name="newAva" type="file" accept="image/*" class="form-control" />
 							    <button type="submit" class="btn btn-primary my-4" name="avatar-save"><i class="bi bi-send-fill"></i>保存</button>
+							    </div>
+							    </form>
+							
+						    </div>
+						</div>
+					    </div>
+					</div>
+					<div class="tab-pane fade" id="bg-panel" role="tabpanel" aria-labelledby="bg-tab">
+						<div class="container space-2">
+						<div class="row">
+						    <div class="col col-12 col-md-6 col-lg-7 mb-5">
+							<h5 class="mb-4 text-center">原背景</h5>
+							<div class="img-container">
+							<img class="mx-auto" id="image" src="/storage/bg/<?php echo($bg); ?>" style="max-height:256px;max-width:100%;" />
+							</div>
+						    </div>
+						    <div class="col col-12 col-md-6 col-lg-5">
+							<h5 class="text-center">新背景</h5>
+							<div class="text-center">
+							    <form id="bg-form" action="/includes/query.php" method="post" enctype="multipart/form-data">
+									<label for="newBg" class="form-label">选择图片</label>
+									<input id="f" name="f" type="text" value="UpdateBg" disabled style="display: none" />
+								    <input id="newBg" name="newBg" type="file" accept="image/*" class="form-control" />
+							    <button type="submit" class="btn btn-primary my-4" name="bg-save"><i class="bi bi-send-fill"></i>保存</button>
 							    </div>
 							    </form>
 							</div>
 						    </div>
 						</div>
 					    </div>
-					</div>
-					<div class="tab-pane fade" id="bg-panel" role="tabpanel" aria-labelledby="bg-tab"> </div>
-					<div class="tab-pane fade" id="pass-panel" role="tabpanel" aria-labelledby="passr-tab"> </div>
+				</div>
+					<div class="tab-pane fade" id="pass-panel" role="tabpanel" aria-labelledby="pass-tab"> </div>
 				</div>
 			</div>
 		</div>

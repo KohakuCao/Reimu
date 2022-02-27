@@ -129,14 +129,22 @@ if($_POST["f"]=="Logout"){
 	echo("1");
 }
 
-if($_POST["f"]=="ChengeAva"){
-	$file=$_FILES["ava"];
+if($_POST["f"]=="UpdateAva"){
+	$file=$_FILES["newAva"];
 	$uid=$_SESSION["uid"];
+	$ava=new Upload($file,"ava");
+	if($ava->UpdateAvatar($uid)){
+		header("Location:/");
+	}
 	
 }
 
-if($_POST["f"]=="ChangeBg"){
-	$file=$_FILES["bg"];
+if($_POST["f"]=="UpdateBg"){
+	$file=$_FILES["newBg"];
 	$uid=$_SESSION["uid"];
+	$ava=new Upload($file,"bg");
+	if($ava->UpdateBackground($uid)){
+		header("Location:/");
+	}
 }
 ?>
