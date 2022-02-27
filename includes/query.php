@@ -130,6 +130,10 @@ if($_POST["f"]=="Logout"){
 }
 
 if($_POST["f"]=="UpdateAva"){
+	if(empty($_FILES["newAva"]["tmp_name"])){
+		header("Location:/");
+		exit();
+	}
 	$file=$_FILES["newAva"];
 	$uid=$_SESSION["uid"];
 	$ava=new Upload($file,"ava");
@@ -140,6 +144,10 @@ if($_POST["f"]=="UpdateAva"){
 }
 
 if($_POST["f"]=="UpdateBg"){
+	if(empty($_FILES["newBg"]["tmp_name"])){
+		header("Location:/");
+		exit();
+	}
 	$file=$_FILES["newBg"];
 	$uid=$_SESSION["uid"];
 	$ava=new Upload($file,"bg");

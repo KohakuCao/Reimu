@@ -200,7 +200,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 							<div class="text-center">
 							    <form id="avatar-form" action="/includes/query.php" method="post" enctype="multipart/form-data">
 									<label for="newAva" class="form-label">选择图片</label>
-									<input id="f" name="f" type="text" value="UpdateAva" disabled style="display: none" />
+									<input id="f" name="f" type="text" value="UpdateAva" readonly style="display: none" />
 								    <input id="newAva" name="newAva" type="file" accept="image/*" class="form-control" />
 							    <button type="submit" class="btn btn-primary my-4" name="avatar-save"><i class="bi bi-send-fill"></i>保存</button>
 							    </div>
@@ -208,7 +208,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 							
 						    </div>
 						</div>
-					    </div>
+					    
 					</div>
 					<div class="tab-pane fade" id="bg-panel" role="tabpanel" aria-labelledby="bg-tab">
 						<div class="container space-2">
@@ -224,7 +224,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 							<div class="text-center">
 							    <form id="bg-form" action="/includes/query.php" method="post" enctype="multipart/form-data">
 									<label for="newBg" class="form-label">选择图片</label>
-									<input id="f" name="f" type="text" value="UpdateBg" disabled style="display: none" />
+									<input id="f" name="f" type="text" value="UpdateBg" readonly style="display: none" />
 								    <input id="newBg" name="newBg" type="file" accept="image/*" class="form-control" />
 							    <button type="submit" class="btn btn-primary my-4" name="bg-save"><i class="bi bi-send-fill"></i>保存</button>
 							    </div>
@@ -232,7 +232,6 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 							</div>
 						    </div>
 						</div>
-					    </div>
 				</div>
 					<div class="tab-pane fade" id="pass-panel" role="tabpanel" aria-labelledby="pass-tab"> </div>
 				</div>

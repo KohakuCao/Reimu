@@ -35,15 +35,15 @@ class Upload{
 		if($type=="gif"){
 			$img->save_to($this->dir.$uid.".gif");
 		}elseif($type=="png"||$type=="png8"||$type=="png24"||$type=="png32"){
-		$w=$img->get_width();
-		$h=$img->get_height();
-		if($w>$h){
-			$img->resize_to($w,256,"scale");
-		}elseif($h>$w){
-			$img->resize_to(256,$h,"scale");
-		}
-		$img->resize_to(256,256,"center");
-		$img->save_to($this->dir.$uid.".png");
+			$w=$img->get_width();
+			$h=$img->get_height();
+			if($w>$h){
+				$img->resize_to($w,256,"scale");
+			}elseif($h>$w){
+				$img->resize_to(256,$h,"scale");
+			}
+			$img->resize_to(256,256,"center");
+			$img->save_to($this->dir.$uid.".png");
 		}elseif($type=="jpg"||$type=="jpeg"||$type=="tiff"||$type=="bmp"){
 			$w=$img->get_width();
 			$h=$img->get_height();
