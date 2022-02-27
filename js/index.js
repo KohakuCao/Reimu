@@ -86,3 +86,91 @@ function updateInfo(){
 		}
 	});
 }
+
+function checkSize(type){
+	if(type=="ava"){
+		var e=$("#newAva");
+		var i=$("#avaHelp");
+	}else if(type=="bg"){
+		var e=$("#newBg");
+		var i=$("#bgHelp");
+	}
+	var size=(e[0].files[0].size)/1024;
+	if(size>4096){
+		i.html("不可以超过4MB！");
+	}else{
+		i.html("");
+	}
+	
+}
+
+function refreshExp(){
+	$.post("/includes/query.php",{
+		f:"GetExp"
+	},function(data){
+		$("#exps").html(data);
+	});
+}
+
+function delExp(id){
+	$.post("/includes/query.php",{
+		f:"DelExp",
+		id:id
+	},function(data){
+		if(data=="1"){
+			refreshExp();
+		}else{
+			alert("蚌！");
+			refreshExp();
+		}
+	});
+}
+
+function sendExp(){
+	var name=$("#e-name").val();
+	var committee=$("#e-committee").val();
+	var topic=$("#e-topic").val();
+	var seat=$("#e-seat").val();
+	var title=$("#e-title").val();
+	$.post("/includes/query.php",{
+		f:"AddExp",
+		name:name,
+		committee:committee,
+		topic:topic,
+		seat:seat,
+		title:title
+	},function(data){
+		if(data=="1"){
+			$("#e-name").val("");
+			$("#e-committee").val("");
+			$("#e-topic").val("");
+			$("#e-seat").val("");
+			$("#e-title").val("");
+			refreshExp();
+		}else{
+			alert("蚌！");
+			refreshExp();
+		}
+	});
+}
+
+function saveDisExp(){
+	if($("#exp_display").is(":checked")){
+		var exp_display=1;
+	}else{
+		var exp_display=0;
+	}
+	$.post("/includes/query.php",{
+		f:"DisExp",
+		experience_display:exp_display
+	},function(data){
+		if(data=="1"){
+			var toastId=$("#updateSucToast");
+			var toast=new bootstrap.Toast(toastId);
+			toast.show();
+		}else{
+			alert("蚌！");
+			refreshExp();
+		}
+	});
+}

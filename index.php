@@ -28,6 +28,8 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
 <title>个人面板 - Reimu</title>
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/css/index.css" rel="stylesheet" />
@@ -40,16 +42,14 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow" role="navigation">
 	<div class="container-fluid"> <a class="navbar-brand" href="/"><img class="logo" src="/storage/reimu/logo.svg" /></a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<u1 class="navbar-nav">
-				<li class="nav-item"><a class="nav-link" href="#">近期活动</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">核心委员会</a></li>
-				<li class="nav-item dropdown"> <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"> 我的资料 <b class="caret"></b> </a>
+				<li class="nav-item"><a class="nav-link" href="<?php echo("/s/".$uid); ?>">我的模联名片</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">表白墙</a></li>
+				<li class="nav-item dropdown"> <a href="/" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"> 我的资料 <b class="caret"></b> </a>
 					<ul class="dropdown-menu">
-						<li><a  class="dropdown-item" href="#">修改头像</a></li>
-						<li class="divider"></li>
-						<li><a  class="dropdown-item" href="#">退出登录</a></li>
+						<li><a  class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">退出登录</a></li>
 					</ul>
 				</li>
 			</u1>
@@ -131,14 +131,14 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 								</div>
 								<div class="mb-3">
 									<label class="form-label" for="phone">手机</label>
-									<input type="text" class="form-control" id="phone" aria-describedby="phoneHelp" value="<?php echo("$user->phone"); ?>" onChange="check();" />
+									<input type="tel" class="form-control" id="phone" aria-describedby="phoneHelp" value="<?php echo("$user->phone"); ?>" onChange="check();" />
 									<label class="form-text" id="phoneHelp"></label>
 									<input class="form-check-input" type="checkbox" id="phone_display" <?php if($display["phone"]==1){echo("checked");} ?> />
 									<label class="form-check-label" for="phone_display">在名片展示</label>
 								</div>
 								<div class="mb-3">
 									<label class="form-label" for="qq">QQ</label>
-									<input type="text" class="form-control" id="qq" aria-describedby="qqHelp" value="<?php echo("$user->qq"); ?>" />
+									<input type="tel" class="form-control" id="qq" aria-describedby="qqHelp" value="<?php echo("$user->qq"); ?>" />
 									<label class="form-text" id="qqHelp"></label>
 									<input class="form-check-input" type="checkbox" id="qq_display" <?php if($display["qq"]==1){echo("checked");} ?> />
 									<label class="form-check-label" for="qq_display">在名片展示</label>
@@ -156,37 +156,51 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 								</div>
 							</form>
 							<div class="row justify-content-end">
-								<button class="btn btn-primary col-3 col-md-2" onClick="updateInfo();">保存</button>
+								<button class="btn btn-primary col-3 col-md-2" onClick="updateInfo();"><i class="bi bi-send-fill"></i>保存</button>
 							</div>
 						</div>
 					</div>
 					<div class="tab-pane fade" id="experience-panel" role="tabpanel" aria-labelledby="experience-tab">
-						<div id="exp" class="tab-pane active">
-							<div class="py-2 mx-2">
-								<div class="accordion" id="exp">
-									<div class="accordion-item">
-										<form>
-											<h2 class="accordion-header" id="expHead1">
-												<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp1" aria-expanded="false" aria-controls="exp1">
-												<input type="text" class="form-control" placeholder="来点会议名称" name="meetName">
-												</button>
-											</h2>
-											<div id="exp1" class="accordion-collapse collapse" aria-labelledby="expHead1" data-bs-parent="#exp">
-												<div class="accordion-body"> <strong>
-													<input type="text" class="form-control" placeholder="你参加了哪个委员会？" name="expCmt">
-													</strong><br>
-													<input type="text" class="form-control" placeholder="你参加的议题是？" name="metTitle">
-													<br>
-													<input type="text" class="form-control" placeholder="什么Cosplay（）" name="metSeat">
-													<br>
-													<input type="text" class="form-control" placeholder="有什么奖项或者称号吗" name="metPrice">
-													<br>
-												</div>
-											</div>
-											<button type="submit" class="btn btn-primary my-4" style="align-items: center;" name="avatar-save"><i class="bi bi-send-fill"></i>保存</button>
-										</form>
-									</div>
+						<div class="row justify-content-end my-2 px-4">
+							<div class="col-5 col-md-4">
+								<input class="form-check-input" type="checkbox" id="exp_display" <?php if($display["experience"]==1){echo("checked");} ?> />
+									<label class="form-check-label" for="exp_display">在名片展示</label>
+							</div>
+							<button class="col-2 col-md-1 btn btn-success" onClick="saveDisExp();"><i class="bi bi-file-earmark-text"></i></button>
+						</div>
+						<div class="px-2" id="exps"> 暂无参会经验！ </div>
+						<hr class="my-4" />
+						<div class="py-2 mx-2">
+							<h4>添加参会经历</h4>
+							<form>
+								<div class="form-floating mb-1">
+									<input type="text" class="form-control" id="e-name" aria-describedby="e-nameHelp" placeholder="必填" />
+									<label class="form-text" id="e-nameHelp"></label>
+									<label for="e-name">会议名*</label>
 								</div>
+								<div class="form-floating mb-1">
+									<input type="text" class="form-control" id="e-committee" aria-describedby="e-committeeHelp" placeholder="选填" />
+									<label  for="e-committee">委员会（非必填）</label>
+									<label class="form-text" id="e-committeeHelp"></label>
+								</div>
+								<div class="form-floating mb-1">
+									<input type="text" class="form-control" id="e-topic" aria-describedby="e-topicHelp" placeholder="选填" />
+									<label for="e-topic">议题（非必填）</label>
+									<label class="form-text" id="e-topicHelp"></label>
+								</div>
+								<div class="form-floating mb-1">
+									<input type="text" class="form-control" id="e-seat" aria-describedby="e-seatHelp" placeholder="选填" />
+									<label for="e-seat">席位或职位*</label>
+									<label class="form-text" id="e-seatHelp"></label>
+								</div>
+								<div class="form-floating mb-1">
+									<input type="text" class="form-control col-6" id="e-title" aria-describedby="e-titleHelp" placeholder="选填" />
+									<label for="e-title">奖项或称号（非必填）</label>
+									<label class="form-text" id="e-titleHelp"></label>
+								</div>
+							</form>
+							<div class="row justify-content-end">
+								<button class="mt-2 mb-5 btn btn-primary col-3 col-md-2" id="sendExp" onClick="sendExp();"><i class="bi bi-send-fill"></i>添加</button>
 							</div>
 						</div>
 					</div>
@@ -203,7 +217,8 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 									<form id="avatar-form" action="/includes/query.php" method="post" enctype="multipart/form-data">
 										<label for="newAva" class="form-label">选择图片</label>
 										<input id="f" name="f" type="text" value="UpdateAva" readonly style="display: none" />
-										<input id="newAva" name="newAva" type="file" accept="image/*" class="form-control" />
+										<input id="newAva" name="newAva" type="file" accept="image/*" class="form-control" onChange="checkSize('ava');" />
+										<label class="form-text text-danger" id="avaHelp"></label>
 										<button type="submit" class="btn btn-primary my-4" name="avatar-save"><i class="bi bi-send-fill"></i>保存</button>
 										</div>
 									</form>
@@ -224,7 +239,8 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 									<form id="bg-form" action="/includes/query.php" method="post" enctype="multipart/form-data">
 										<label for="newBg" class="form-label">选择图片</label>
 										<input id="f" name="f" type="text" value="UpdateBg" readonly style="display: none" />
-										<input id="newBg" name="newBg" type="file" accept="image/*" class="form-control" />
+										<input id="newBg" name="newBg" type="file" accept="image/*" class="form-control" onChange="checkSize('bg');" />
+										<label class="form-text text-danger" id="bgHelp"></label>
 										<button type="submit" class="btn btn-primary my-4" name="bg-save"><i class="bi bi-send-fill"></i>保存</button>
 										</div>
 									</form>
@@ -266,9 +282,11 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 	</div>
 </div>
 <footer style="bottom: 0; width: 100%">
-	<div class="container-fluid bg-dark text-white" style="height: 48px;z-index:-999">
+	<div class="container-fluid bg-dark text-white" style="height: 96px;z-index:-999">
 		<h5 class="px-auto text-center">Reimu</h5>
+		<p class="text-center">由星云娘 ~DevTeam~ 开发</p>
 	</div>
 </footer>
+<script type="application/javascript">refreshExp();</script>
 </body>
 </html>

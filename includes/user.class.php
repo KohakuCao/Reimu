@@ -95,9 +95,7 @@ class User{
 	
 	function Register($password="",$ip="0.0.0.0"){
 		//注册
-		if($this->Check()!=0){
-			return 0;
-		}
+		
 		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
 		$check=mysqli_query($myConnect,"SELECT reg_time FROM `user` WHERE `reg_IP`='$ip';");
 		if(mysqli_num_rows($check)>0){
@@ -200,7 +198,18 @@ class User{
 	
 	function DeleteExperience($id){
 		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
-		if(mysqli_query($myConnect,"DELETE FROM `experience` WHERE `id`=$id;")){
+		if(mysqli_query($myConnect,"DELETE FROM `experience` WHERE `id`=$id AND `uid`=$this->uid;")){
+			mysqli_close($myConnect);
+			return 1;
+		}else{
+			mysqli_close($myConnect);
+			return 0;
+		}
+	}
+	
+	function DisplayExperience($exp){
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		if(mysqli_query($myConnect,"UPDATE `info_display` SET `experience`=$exp WHERE `uid`=$this->uid;")){
 			mysqli_close($myConnect);
 			return 1;
 		}else{

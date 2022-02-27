@@ -2,6 +2,7 @@
 session_start();
 require_once($_SERVER["DOCUMENT_ROOT"]."includes/user.class.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."includes/upload.class.php");
+//ini_set("display_errors","no");
 if($_POST["f"]=="Check"){
 	if(isset($_SESSION["uid"])){
 		$uid=$_SESSION["uid"];
@@ -90,6 +91,42 @@ if($_POST["f"]=="UpdateInfo"){
 	echo($user->UpdateInfo($s));
 }
 
+if($_POST["f"]=="GetExp"){
+	$uid=$_SESSION["uid"];
+	$user=new User();
+	$user->updateObj(uid:$uid);
+	$exps=$user->GetExperience();
+	if($exps==0){
+		echo("您还没有参加过模联会议！");
+	}else{
+		echo('<div class="accordion" id="exp">');
+		foreach($exps as $e) {
+			if ($e["committee"] != "") {
+				$e["committee"] = $e["committee"] . "<br />";
+			}
+			if ($e["topic"] != "") {
+				$e["topic"] = $e["topic"] . "<br />";
+			}
+			$output = '<div class="accordion-item">
+							<h2 class="accordion-header" id="expHead' . $e["id"] . '">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp' . $e["id"] . '" aria-expanded="false" aria-controls="exp' . $e["id"] . '">
+							' . $e["name"] . '
+							</button>
+							</h2>
+							<div id="exp' . $e["id"] . '" class="accordion-collapse collapse" aria-labelledby="expHead' . $e["id"] . '" >
+							<div class="accordion-body">
+							<strong>委员会：' . $e["committee"] . '</strong>' . $e["topic"] . $e["seat"] . '<br />' . $e["title"] . '
+							<div class="row p-0 m-0 justify-content-end"><button onclick="delExp('.$e["id"].');" class="btn btn-danger col-3 col-md-2">删除</button></div>
+							</div>
+							</div>
+							</div>';
+			echo($output);
+		}
+			echo("</div>");
+			unset($e);
+	}
+}
+
 if($_POST["f"]=="AddExp"){
 	$uid=$_SESSION["uid"];
 	$name=htmlspecialchars($_POST["name"]);
@@ -108,20 +145,27 @@ if($_POST["f"]=="AddExp"){
 		$user=new User();
 		$user->updateObj(uid: $uid);
 		echo($user->AddExperience($exp));
+	}else{
+		echo(0);
 	}
 }
 
 if($_POST["f"]=="DelExp"){
 	$id=$_POST["id"];
-	$ip=$_SESSION["ip"];
-	$timestamp=time();
-	$url="https://ssl.captcha.qq.com/ticket/verify?Ticket=".$_POST["Ticket"]."&UserIP=".$ip."&Randstr=".$_POST["Randstr"]."&aid=".TC_APPID."&AppSecretKey=".TC_KEY;
-	$capData=file_get_contents($url);
-	$capData=json_decode($capData);
-	if($capData->response=="1"){
-		$user=new User();
-		echo($user->DeleteExperience($id));
+	if(!isset($_SESSION["uid"])){
+		echo(0);
+		exit();
 	}
+	$user=new User();
+	$user->updateObj(uid:$_SESSION["uid"]);
+	echo($user->DeleteExperience($id));
+}
+
+if($_POST["f"]=="DisExp"){
+	$e=intval($_POST["experience_display"]);
+	$user=new User();
+	$user->updateObj(uid:$_SESSION["uid"]);
+	echo($user->DisplayExperience($e));
 }
 
 if($_POST["f"]=="Logout"){
@@ -130,7 +174,7 @@ if($_POST["f"]=="Logout"){
 }
 
 if($_POST["f"]=="UpdateAva"){
-	if(empty($_FILES["newAva"]["tmp_name"])){
+	if(empty($_FILES["newAva"]["tmp_name"])||stristr($_FILES["newAva"]["type"],"image/")==false){
 		header("Location:/");
 		exit();
 	}
@@ -144,7 +188,7 @@ if($_POST["f"]=="UpdateAva"){
 }
 
 if($_POST["f"]=="UpdateBg"){
-	if(empty($_FILES["newBg"]["tmp_name"])){
+	if(empty($_FILES["newBg"]["tmp_name"])||stristr($_FILES["newBg"]["type"],"image/")==false){
 		header("Location:/");
 		exit();
 	}

@@ -32,6 +32,8 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
 <title><?php echo($user->name); ?> - Reimu模联名片</title>
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/css/space.css" rel="stylesheet" />
@@ -111,7 +113,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 							'.$e["name"].'
 							</button>
 							</h2>
-							<div id="exp'.$e["id"].'" class="accordion-collapse collapse" aria-labelledby="expHead'.$e["id"].'" data-bs-parent="#exp">
+							<div id="exp'.$e["id"].'" class="accordion-collapse collapse" aria-labelledby="expHead'.$e["id"].'">
 							<div class="accordion-body">
 							<strong>委员会：'.$e["committee"].'</strong>'.$e["topic"].$e["seat"].'<br />'.$e["title"].'
 							</div>
@@ -134,7 +136,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 	<p class="text-center"><a href="/login">获取我的模联名片</a></p>
 	<div class="container-fluid bg-dark text-white" style="height: 96px;z-index:-999">
 		<h5 class="px-auto text-center">Reimu模联名片</h5>
-		<p class="text-center">由星云娘DevTeam开发</p>
+		<p class="text-center">由星云娘 ~DevTeam~ 开发</p>
 	</div>
 </footer>
 	<script type="application/javascript">$("#qr").attr("src","https://api.qrserver.com/v1/create-qr-code/?data="+window.location.href+"&size=512x512");</script>
