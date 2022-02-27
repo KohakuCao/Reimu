@@ -162,77 +162,76 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 					</div>
 					<div class="tab-pane fade" id="experience-panel" role="tabpanel" aria-labelledby="experience-tab">
 						<div id="exp" class="tab-pane active">
-						    <div class="py-2 mx-2">
-							<div class="accordion" id="exp"><div class="accordion-item">
-							    <form>
-								<h2 class="accordion-header" id="expHead1">
-								    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp1" aria-expanded="false" aria-controls="exp1">
-									<input type="text" class="form-control" placeholder="来点会议名称" name="meetName">
-								    </button>
-								</h2>
-								<div id="exp1" class="accordion-collapse collapse" aria-labelledby="expHead1" data-bs-parent="#exp">
-								    <div class="accordion-body">
-									<strong>
-									    <input type="text" class="form-control" placeholder="你参加了哪个委员会？" name="expCmt"></strong><br>
-									    <input type="text" class="form-control" placeholder="你参加的议题是？" name="metTitle"><br>
-									    <input type="text" class="form-control" placeholder="什么Cosplay（）" name="metSeat"><br>
-									    <input type="text" class="form-control" placeholder="有什么奖项或者称号吗" name="metPrice"><br>
-
-								    </div>
+							<div class="py-2 mx-2">
+								<div class="accordion" id="exp">
+									<div class="accordion-item">
+										<form>
+											<h2 class="accordion-header" id="expHead1">
+												<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp1" aria-expanded="false" aria-controls="exp1">
+												<input type="text" class="form-control" placeholder="来点会议名称" name="meetName">
+												</button>
+											</h2>
+											<div id="exp1" class="accordion-collapse collapse" aria-labelledby="expHead1" data-bs-parent="#exp">
+												<div class="accordion-body"> <strong>
+													<input type="text" class="form-control" placeholder="你参加了哪个委员会？" name="expCmt">
+													</strong><br>
+													<input type="text" class="form-control" placeholder="你参加的议题是？" name="metTitle">
+													<br>
+													<input type="text" class="form-control" placeholder="什么Cosplay（）" name="metSeat">
+													<br>
+													<input type="text" class="form-control" placeholder="有什么奖项或者称号吗" name="metPrice">
+													<br>
+												</div>
+											</div>
+											<button type="submit" class="btn btn-primary my-4" style="align-items: center;" name="avatar-save"><i class="bi bi-send-fill"></i>保存</button>
+										</form>
+									</div>
 								</div>
-                             					<button type="submit" class="btn btn-primary my-4" style="align-items: center;" name="avatar-save"><i class="bi bi-send-fill"></i>保存</button>
-							    </form>
 							</div>
-						    </div>	
 						</div>
 					</div>
 					<div class="tab-pane fade" id="avatar-panel" role="tabpanel" aria-labelledby="avatar-tab">
 						<div class="container space-2">
-						<div class="row">
-						    <div class="col col-12 col-md-6 col-lg-7 mb-5">
-							<h5 class="mb-4 text-center">原头像</h5>
-							<div class="img-container">
-							<img class="mx-auto" id="image" src="/storage/avatar/<?php echo($avatar); ?>" style="max-height:256px;max-width:256px;" />
+							<div class="row">
+								<div class="col col-12 col-md-6 col-lg-7 mb-5">
+									<h5 class="mb-4 text-center">原头像</h5>
+									<div class="img-container"> <img class="mx-auto" id="image" src="/storage/avatar/<?php echo($avatar); ?>" style="max-height:256px;max-width:256px;" /> </div>
+								</div>
+								<div class="col col-12 col-md-6 col-lg-5">
+									<h5 class="text-center">新头像</h5>
+									<div class="text-center">
+									<form id="avatar-form" action="/includes/query.php" method="post" enctype="multipart/form-data">
+										<label for="newAva" class="form-label">选择图片</label>
+										<input id="f" name="f" type="text" value="UpdateAva" readonly style="display: none" />
+										<input id="newAva" name="newAva" type="file" accept="image/*" class="form-control" />
+										<button type="submit" class="btn btn-primary my-4" name="avatar-save"><i class="bi bi-send-fill"></i>保存</button>
+										</div>
+									</form>
+								</div>
 							</div>
-						    </div>
-						    <div class="col col-12 col-md-6 col-lg-5">
-							<h5 class="text-center">新头像</h5>
-							<div class="text-center">
-							    <form id="avatar-form" action="/includes/query.php" method="post" enctype="multipart/form-data">
-									<label for="newAva" class="form-label">选择图片</label>
-									<input id="f" name="f" type="text" value="UpdateAva" readonly style="display: none" />
-								    <input id="newAva" name="newAva" type="file" accept="image/*" class="form-control" />
-							    <button type="submit" class="btn btn-primary my-4" name="avatar-save"><i class="bi bi-send-fill"></i>保存</button>
-							    </div>
-							    </form>
-							
-						    </div>
 						</div>
-					    
 					</div>
 					<div class="tab-pane fade" id="bg-panel" role="tabpanel" aria-labelledby="bg-tab">
 						<div class="container space-2">
-						<div class="row">
-						    <div class="col col-12 col-md-6 col-lg-7 mb-5">
-							<h5 class="mb-4 text-center">原背景</h5>
-							<div class="img-container">
-							<img class="mx-auto" id="image" src="/storage/bg/<?php echo($bg); ?>" style="max-height:256px;max-width:100%;" />
+							<div class="row">
+								<div class="col col-12 col-md-6 col-lg-7 mb-5">
+									<h5 class="mb-4 text-center">原背景</h5>
+									<div class="img-container"> <img class="mx-auto" id="image" src="/storage/bg/<?php echo($bg); ?>" style="max-height:256px;max-width:100%;" /> </div>
+								</div>
+								<div class="col col-12 col-md-6 col-lg-5">
+									<h5 class="text-center">新背景</h5>
+									<div class="text-center">
+									<form id="bg-form" action="/includes/query.php" method="post" enctype="multipart/form-data">
+										<label for="newBg" class="form-label">选择图片</label>
+										<input id="f" name="f" type="text" value="UpdateBg" readonly style="display: none" />
+										<input id="newBg" name="newBg" type="file" accept="image/*" class="form-control" />
+										<button type="submit" class="btn btn-primary my-4" name="bg-save"><i class="bi bi-send-fill"></i>保存</button>
+										</div>
+									</form>
+								</div>
 							</div>
-						    </div>
-						    <div class="col col-12 col-md-6 col-lg-5">
-							<h5 class="text-center">新背景</h5>
-							<div class="text-center">
-							    <form id="bg-form" action="/includes/query.php" method="post" enctype="multipart/form-data">
-									<label for="newBg" class="form-label">选择图片</label>
-									<input id="f" name="f" type="text" value="UpdateBg" readonly style="display: none" />
-								    <input id="newBg" name="newBg" type="file" accept="image/*" class="form-control" />
-							    <button type="submit" class="btn btn-primary my-4" name="bg-save"><i class="bi bi-send-fill"></i>保存</button>
-							    </div>
-							    </form>
-							</div>
-						    </div>
 						</div>
-				</div>
+					</div>
 					<div class="tab-pane fade" id="pass-panel" role="tabpanel" aria-labelledby="pass-tab"> </div>
 				</div>
 			</div>
@@ -258,10 +257,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 </div>
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
 	<div id="updateSucToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-		<div class="toast-header">
-			<img src="/storage/reimu/logo.svg" class="rounded me-2" style="width: 24px;height: 24px" />
-			<strong class="me-auto">灵Reimu</strong>
-			<small>现在</small>
+		<div class="toast-header"> <img src="/storage/reimu/logo.svg" class="rounded me-2" style="width: 24px;height: 24px" /> <strong class="me-auto">灵Reimu</strong> <small>现在</small>
 			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
 		</div>
 		<div class="toast-body">
