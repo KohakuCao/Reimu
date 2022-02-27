@@ -160,7 +160,32 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 							</div>
 						</div>
 					</div>
-					<div class="tab-pane fade" id="experience-panel" role="tabpanel" aria-labelledby="experience-tab"></div>
+					<div class="tab-pane fade" id="experience-panel" role="tabpanel" aria-labelledby="experience-tab">
+						<div id="exp" class="tab-pane active">
+						    <div class="py-2 mx-2">
+							<div class="accordion" id="exp"><div class="accordion-item">
+							    <form>
+								<h2 class="accordion-header" id="expHead1">
+								    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp1" aria-expanded="false" aria-controls="exp1">
+									<input type="text" class="form-control" placeholder="来点会议名称" name="meetName">
+								    </button>
+								</h2>
+								<div id="exp1" class="accordion-collapse collapse" aria-labelledby="expHead1" data-bs-parent="#exp">
+								    <div class="accordion-body">
+									<strong>
+									    <input type="text" class="form-control" placeholder="你参加了哪个委员会？" name="expCmt"></strong><br>
+									    <input type="text" class="form-control" placeholder="你参加的议题是？" name="metTitle"><br>
+									    <input type="text" class="form-control" placeholder="什么Cosplay（）" name="metSeat"><br>
+									    <input type="text" class="form-control" placeholder="有什么奖项或者称号吗" name="metPrice"><br>
+
+								    </div>
+								</div>
+                             					<button type="submit" class="btn btn-primary my-4" style="align-items: center;" name="avatar-save"><i class="bi bi-send-fill"></i>保存</button>
+							    </form>
+							</div>
+						    </div>	
+						</div>
+					</div>
 					<div class="tab-pane fade" id="avatar-panel" role="tabpanel" aria-labelledby="avatar-tab">
 						<div class="container space-2">
 						<div class="row">
