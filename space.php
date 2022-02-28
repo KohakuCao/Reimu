@@ -67,8 +67,10 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 					<hr class="my-2">
 					<p class=" text-shadow"><?php echo($user->school); ?></p>
 					<hr class="my-2">
-					<p class="text-shadow"><?php echo($user->sign); ?></p>
-					<img id="qr" style="height: 20%; bottom:10%; right:10%" class="float-end" /> 
+					<div class="row">
+					<p class="text-shadow col-9"><?php echo($user->sign); ?></p>
+					<img id="qr" style="height: 20%; bottom:10%; right:10%;max-height: 96px;max-width:96px" class="float-end col-3" />
+					</div>
 				</div>
 			</div>
 			<div class="col-12 col-md-10 col-lg-9" id="infoContainer">

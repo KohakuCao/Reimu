@@ -29,7 +29,6 @@ if($_POST["f"]=="Reg"){
 		echo("0");
 	}
 	$ip=$_SESSION["ip"];
-	$timestamp=time();
 	$url="https://ssl.captcha.qq.com/ticket/verify?Ticket=".$_POST["Ticket"]."&UserIP=".$ip."&Randstr=".$_POST["Randstr"]."&aid=".TC_APPID."&AppSecretKey=".TC_KEY;
 	$capData=file_get_contents($url);
 	$capData=json_decode($capData);
@@ -55,7 +54,6 @@ if($_POST["f"]=="UpdatePass"){
 	$op=$_POST["oldPassword"];
 	$np=$_POST["newPassword"];
 	$ip=$_SESSION["ip"];
-	$timestamp=time();
 	$url="https://ssl.captcha.qq.com/ticket/verify?Ticket=".$_POST["Ticket"]."&UserIP=".$ip."&Randstr=".$_POST["Randstr"]."&aid=".TC_APPID."&AppSecretKey=".TC_KEY;
 	$capData=file_get_contents($url);
 	$capData=json_decode($capData);

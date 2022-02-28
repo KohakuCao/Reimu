@@ -24,11 +24,6 @@ main {
 	transition: all 0.6s ease-in-out;
 	object-fit: cover;
 }
-@media (max-width:981px){
-	.bgimg{
-		max-height: 512px !important;
-	}
-}
 .bgimg-nb{
 	-webkit-filter: blur(0px) !important;
 	filter:blur(0px) !important;

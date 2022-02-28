@@ -174,3 +174,39 @@ function saveDisExp(){
 		}
 	});
 }
+
+function updatePass(res){
+	if (res.ret === 0) {
+		var oldPass=$("#oldPass").val();
+		var newPass=$("#newPass").val();
+		var newPass2=$("#newPass2").val();
+		if(newPass==newPass2){
+			$.post("/includes/query.php",{
+				f:"UpdatePass",
+				oldPassword:oldPass,
+				newPassword:newPass,
+				Ticket:res.ticket,
+				Randstr:res.randstr
+			},function(data){
+				if(data=="1"){
+					var toastId=$("#updateSucToast");
+					var toast=new bootstrap.Toast(toastId);
+					toast.show();
+					$("#newPass2Help").html('');
+					$("#oldPass").val('');
+					$("#newPass").val('');
+					$("#newPass2").val('');
+				}else if(data=="0"){
+					alert("蚌！");
+				}else{
+					alert(data);
+				}
+			})
+		}else{
+			alert("两次输入密码不同！");
+			$("#newPass2Help").html('<p class="text-danger">两次输入密码不同</p>');
+		}
+	}else{
+		alert("蚌！");
+	}
+}

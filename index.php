@@ -37,6 +37,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 <script type="application/javascript" src="/js/bootstrap.bundle.min.js"></script> 
 <script type="application/javascript" src="/js/jquery-3.6.0.min.js"></script> 
 <script type="application/javascript" src="/js/index.js"></script>
+<script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
 </head>
 
 <body>
@@ -86,7 +87,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 				<div class="tab-content">
 					<div class="tab-pane fade show active" id="info-panel" role="tabpanel" aria-labelledby="info-tab">
 						<h4> 个人资料 </h4>
-						<div class="my-4">
+						<div class="py-4 pe-1">
 							<form id="information">
 								<div class="mb-3 row">
 									<label class="col-3 col-form-label" for="username">用户名</label>
@@ -102,7 +103,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 									</div>
 									<label id="usernameHelp" class="form-text">姓名不可更改</label>
 								</div>
-								<div class="mb-3">
+								<div class="mb-1">
 									<label class="form-label" for="identity">身份证号</label>
 									<input type="text" class="form-control" id="identity" placeholder="我们会保护您的隐私" aria-describedby="identityHelp" value="<?php echo($user->identity); ?>" onChange="check();">
 									<label id="identityHelp" class="form-text"></label>
@@ -116,10 +117,10 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 										<option id="sex3" value="3" <?php if($user->sex==3){echo("selected");} ?>>魂魄妖梦</option>
 									</select>
 								</div>
-								<div class="mb-3">
+								<div class="mb-1">
 									<label class="form-label" for="school">学校</label>
 									<input type="text" class="form-control" id="school" placeholder="北京航空职业技术学院" aria-describedby="schoolHelp" value="<?php echo($user->school); ?>">
-									<label id="identityHelp" class="form-text"></label>
+									<label id="schoolHelp" class="form-text"></label>
 								</div>
 								<hr class="my-4">
 								<div class="mb-3">
@@ -156,21 +157,21 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 								</div>
 							</form>
 							<div class="row justify-content-end">
-								<button class="btn btn-primary col-3 col-md-2" onClick="updateInfo();"><i class="bi bi-send-fill"></i>保存</button>
+								<button class="mt-2 mb-5 btn btn-primary col-3 col-md-2" onClick="updateInfo();"><i class="bi bi-send-fill"></i>保存</button>
 							</div>
 						</div>
 					</div>
 					<div class="tab-pane fade" id="experience-panel" role="tabpanel" aria-labelledby="experience-tab">
 						<div class="row justify-content-end my-2 px-4">
-							<div class="col-5 col-md-4">
+							<div class="col-6 col-md-4 col-lg-3">
 								<input class="form-check-input" type="checkbox" id="exp_display" <?php if($display["experience"]==1){echo("checked");} ?> />
 									<label class="form-check-label" for="exp_display">在名片展示</label>
 							</div>
 							<button class="col-2 col-md-1 btn btn-success" onClick="saveDisExp();"><i class="bi bi-file-earmark-text"></i></button>
 						</div>
-						<div class="px-2" id="exps"> 暂无参会经验！ </div>
+						<div class="px-1" id="exps"></div>
 						<hr class="my-4" />
-						<div class="py-2 mx-2">
+						<div class="py-2 pe-1">
 							<h4>添加参会经历</h4>
 							<form>
 								<div class="form-floating mb-1">
@@ -248,7 +249,28 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 							</div>
 						</div>
 					</div>
-					<div class="tab-pane fade" id="pass-panel" role="tabpanel" aria-labelledby="pass-tab"> </div>
+					<div class="tab-pane fade" id="pass-panel" role="tabpanel" aria-labelledby="pass-tab">
+						<form class="mt-4">
+							<div class="form-floating mb-1">
+									<input type="password" class="form-control" id="oldPass" aria-describedby="oldPassHelp" placeholder="旧密码" />
+									<label class="form-text" id="oldPassHelp"></label>
+									<label for="oldPass">旧密码</label>
+								</div>
+								<div class="form-floating mb-1">
+									<input type="password" class="form-control" id="newPass" aria-describedby="newPassHelp" placeholder="新密码" />
+									<label  for="newPass">新密码</label>
+									<label class="form-text" id="newPassHelp"></label>
+								</div>
+								<div class="form-floating mb-1">
+									<input type="password" class="form-control" id="newPass2" aria-describedby="newPass2Help" placeholder="新密码" />
+									<label  for="newPass2">重复输入新密码</label>
+									<label class="form-text" id="newPass2Help"></label>
+								</div>
+						</form>
+						<div class="row justify-content-end">
+							<button class="mt-2 mb-5 btn btn-primary col-3 col-md-2" id="TencentCaptcha" data-appid="<?php echo(TC_APPID); ?>" data-cbfn="updatePass" type="button"><i class="bi bi-send-fill"></i>保存</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
