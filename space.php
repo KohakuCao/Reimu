@@ -11,6 +11,9 @@ if ( isset( $_GET[ "uid" ] ) ) {
 $user = new User();
 $user->updateObj( uid: $uid );
 $display=$user->GetInfo();
+if($user->introduction==""){
+	$user->introduction='<i class="bi bi-x-circle-fill"></i>'."蚌埠住了，".$user->name."比孙笑川还懒，什么也没有写。";
+}
 if(!$display){
 	header("Location: /404.html");
 }
@@ -69,7 +72,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 					<hr class="my-2">
 					<div class="row">
 					<p class="text-shadow col-9"><?php echo($user->sign); ?></p>
-					<img id="qr" style="height: 20%; bottom:10%; right:10%;max-height: 96px;max-width:96px" class="float-end col-3" />
+					<img id="qr" class="float-end col-3 qr" />
 					</div>
 				</div>
 			</div>

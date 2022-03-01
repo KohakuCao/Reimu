@@ -16,6 +16,14 @@ main {
 .text-shadow{
 	text-shadow: 0 0.1rem .5rem rgba(0,0,0,.50);
 }
+.qr{
+	height: 20%;
+	bottom:10%;
+	right:10%;
+	max-height:96px;
+	max-width:96px;
+	border: 2px rgba(255,255,255,1);
+}
 .bgimg{
 	-webkit-filter: blur(2px);
 	filter:blur(2px);

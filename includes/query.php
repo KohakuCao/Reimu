@@ -27,6 +27,7 @@ if($_POST["f"]=="Reg"){
 	$password=$_POST["password"];
 	if($username==""||$name==""||$phone==null||$email==""||$qq==null){
 		echo("0");
+		exit();
 	}
 	$ip=$_SESSION["ip"];
 	$url="https://ssl.captcha.qq.com/ticket/verify?Ticket=".$_POST["Ticket"]."&UserIP=".$ip."&Randstr=".$_POST["Randstr"]."&aid=".TC_APPID."&AppSecretKey=".TC_KEY;
@@ -120,8 +121,8 @@ if($_POST["f"]=="GetExp"){
 							</div>';
 			echo($output);
 		}
-			echo("</div>");
-			unset($e);
+		echo("</div>");
+		unset($e);
 	}
 }
 
