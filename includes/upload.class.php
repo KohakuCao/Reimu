@@ -85,7 +85,7 @@ class Upload{
 		if($type=="gif"){
 			$img->save_to($this->dir.$uid.".gif");
 		}elseif($type=="jpg"||$type=="jpeg"){
-			while($img->get_width()<960||$img->get_height()<480){
+			while($img->get_width()<1280||$img->get_height()<640){
 				$w=intval($img->get_width())*2;
 				$h=intval($img->get_height())*2;
 				$img->image->scaleImage($w,$h);
@@ -93,14 +93,15 @@ class Upload{
 			$w=$img->get_width();
 			$h=$img->get_height();
 			if($w>$h*2){
-				$img->resize_to($w,480,"scale_fill");
+				$img->resize_to($w,640,"scale_fill");
 			}elseif($h*2>$w){
-				$img->resize_to(960,$h,"scale_fill");
+				$img->resize_to(1280,$h,"scale_fill");
 			}
-			$img->resize_to(960,480,"center");
+			$img->resize_to(1280,640,"center");
+			$img->image->setImageCompressionQuality(90);
 			$img->save_to($this->dir.$uid.".jpg");
 		}elseif($type=="png"||$type=="png8"||$type=="png24"||$type=="png32"||$type=="tiff"||$type=="bmp"){
-			while($img->get_width()<960||$img->get_height()<480){
+			while($img->get_width()<1280||$img->get_height()<640){
 				$w=intval($img->get_width())*2;
 				$h=intval($img->get_height())*2;
 				$img->image->scaleImage($w,$h);
@@ -108,11 +109,11 @@ class Upload{
 			$w=$img->get_width();
 			$h=$img->get_height();
 			if($w*2>$h){
-				$img->resize_to($w,480,"scale_fill");
+				$img->resize_to($w,640,"scale_fill");
 			}elseif($h>$w*2){
-				$img->resize_to(960,$h,"scale_fill");
+				$img->resize_to(1280,$h,"scale_fill");
 			}
-			$img->resize_to(256,256,"center");
+			$img->resize_to(1280,640,"center");
 			$img->set_type("jpg");
 			$img->image->setImageCompressionQuality(90);
 			$img->save_to($this->dir.$uid.".jpg");

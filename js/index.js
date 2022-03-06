@@ -40,6 +40,7 @@ function updateInfo(){
 	var sex=parseInt($("#sex").val());
 	var school=$("#school").val();
 	var phone=parseInt($("#phone").val());
+	var wechat=$("#wechat").val()
 	var email=$("#email").val();
 	var qq=parseInt($("#qq").val());
 	var introduction=$("#introduction").val();
@@ -59,17 +60,24 @@ function updateInfo(){
 	}else{
 		var qq_display=0;
 	}
+	if($("#wechat_display").is(":checked")){
+		var wechat_display=1;
+	}else{
+		var wechat_display=0;
+	}
 	$.post("/includes/query.php",{
 		f:"UpdateInfo",
 		identity:identity,
 		sex:sex,
 		email:email,
 		phone:phone,
+		wechat:wechat,
 		qq:qq,
 		school:school,
 		introduction:introduction,
 		sign:sign,
 		email_display:email_display,
+		wechat_display:wechat_display,
 		qq_display:qq_display,
 		phone_display:phone_display
 	},function(data){

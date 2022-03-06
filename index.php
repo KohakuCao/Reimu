@@ -144,6 +144,13 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 									<input class="form-check-input" type="checkbox" id="qq_display" <?php if($display["qq"]==1){echo("checked");} ?> />
 									<label class="form-check-label" for="qq_display">在名片展示</label>
 								</div>
+								<div class="mb-3">
+									<label class="form-label" for="wechat">微信</label>
+									<input type="tel" class="form-control" id="wechat" aria-describedby="wechatHelp" value="<?php echo("$user->wechat"); ?>" />
+									<label class="form-text" id="wechatHelp"></label>
+									<input class="form-check-input" type="checkbox" id="wechat_display" <?php if($display["wechat"]==1){echo("checked");} ?> />
+									<label class="form-check-label" for="wechat_display">在名片展示</label>
+								</div>
 								<hr class="my-4">
 								<div class="mb-3">
 									<label for="sign" class="form-label">个性签名</label>

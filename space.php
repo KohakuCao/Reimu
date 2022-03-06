@@ -6,7 +6,7 @@ if ( isset( $_GET[ "uid" ] ) ) {
 	$uid = intval( $_GET[ "uid" ] );
 } else {
 	//$uid = 1;
-	header("Location: /404.html");
+	http_response_code(404);
 }
 $user = new User();
 $user->updateObj( uid: $uid );
@@ -93,7 +93,10 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 					if($display["qq"]==1){
 						echo('<svg class="icon" style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="505"><path d="M824.8 613.2c-16-51.4-34.4-94.6-62.7-165.3C766.5 262.2 689.3 112 511.5 112 331.7 112 256.2 265.2 261 447.9c-28.4 70.8-46.7 113.7-62.7 165.3-34 109.5-23 154.8-14.6 155.8 18 2.2 70.1-82.4 70.1-82.4 0 49 25.2 112.9 79.8 159-26.4 8.1-85.7 29.9-71.6 53.8 11.4 19.3 196.2 12.3 249.5 6.3 53.3 6 238.1 13 249.5-6.3 14.1-23.8-45.3-45.7-71.6-53.8 54.6-46.2 79.8-110.1 79.8-159 0 0 52.1 84.6 70.1 82.4 8.5-1.1 19.5-46.4-14.5-155.8z" p-id="506"></path></svg>'."QQ：".$user->qq."<br />");
 					}
-					if($display["phone"]==0&&$display["email"]==0&&$display["qq"]==0){
+					if($display["wechat"]==1){
+						echo('<i class="bi bi-chat-right-dots-fill"></i>'."微信：".$user->wechat."<br />");
+					}
+					if($display["phone"]==0&&$display["email"]==0&&$display["qq"]==0&&$display["wechat"]==0){
 						echo('<i class="bi bi-x-circle-fill"></i>'.$user->name."没有提供任何联系方式……"."<br />");
 					}
 					?>
@@ -107,7 +110,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 						echo('<div class="accordion" id="exp">');
 						foreach($exp as $e){
 							if($e["committee"]!=""){
-								$e["committee"]=$e["committee"]."<br />";
+								$e["committee"]="委员会：".$e["committee"]."<br />";
 							}
 							if($e["topic"]!=""){
 								$e["topic"]=$e["topic"]."<br />";
@@ -120,7 +123,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 							</h2>
 							<div id="exp'.$e["id"].'" class="accordion-collapse collapse" aria-labelledby="expHead'.$e["id"].'">
 							<div class="accordion-body">
-							<strong>委员会：'.$e["committee"].'</strong>'.$e["topic"].$e["seat"].'<br />'.$e["title"].'
+							<strong>'.$e["committee"].'</strong>'.$e["topic"].$e["seat"].'<br />'.$e["title"].'
 							</div>
 							</div>
 							</div>';

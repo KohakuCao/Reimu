@@ -4,7 +4,7 @@ session_start();
 require($_SERVER['DOCUMENT_ROOT']."config.php");
 $_SESSION["ip"] = $_SERVER['REMOTE_ADDR'];
 if (isset($_SESSION["uid"])) {
-	header("Location: /index.php");
+	header("Location: /");
 }
 if(isset($_GET["for"])){
 	$for=$_GET["for"];

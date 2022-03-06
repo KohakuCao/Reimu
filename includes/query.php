@@ -71,6 +71,7 @@ if($_POST["f"]=="UpdateInfo"){
 	$uid=intval($_SESSION["uid"]);
 	$sex=intval($_POST["sex"]);
 	$phone=intval($_POST["phone"]);
+	$wechat=htmlspecialchars($_POST["wechat"]);
 	$email=htmlspecialchars($_POST["email"]);
 	$qq=intval($_POST["qq"]);
 	$identity=htmlspecialchars($_POST["identity"]);
@@ -82,11 +83,12 @@ if($_POST["f"]=="UpdateInfo"){
 	}
 	$s=[
 		"phone"=>intval($_POST["phone_display"]),
+		"wechat"=>intval($_POST["wechat_display"]),
 		"email"=>intval($_POST["email_display"]),
 		"qq"=>intval($_POST["qq_display"])
 	];
 	$user=new User();
-	$user->updateObj($uid,"","",$sex,$phone,$email,$identity,$qq,$school,$introduction,$sign);
+	$user->updateObj($uid,"","",$sex,$phone,$wechat,$email,$identity,$qq,$school,$introduction,$sign);
 	echo($user->UpdateInfo($s));
 }
 
@@ -101,7 +103,7 @@ if($_POST["f"]=="GetExp"){
 		echo('<div class="accordion" id="exp">');
 		foreach($exps as $e) {
 			if ($e["committee"] != "") {
-				$e["committee"] = $e["committee"] . "<br />";
+				$e["committee"] = "委员会：".$e["committee"] . "<br />";
 			}
 			if ($e["topic"] != "") {
 				$e["topic"] = $e["topic"] . "<br />";
@@ -114,15 +116,15 @@ if($_POST["f"]=="GetExp"){
 							</h2>
 							<div id="exp' . $e["id"] . '" class="accordion-collapse collapse" aria-labelledby="expHead' . $e["id"] . '" >
 							<div class="accordion-body">
-							<strong>委员会：' . $e["committee"] . '</strong>' . $e["topic"] . $e["seat"] . '<br />' . $e["title"] . '
+							<strong> '.$e["committee"] . '</strong>' . $e["topic"] . $e["seat"] . '<br />' . $e["title"] . '
 							<div class="row p-0 m-0 justify-content-end"><button onclick="delExp('.$e["id"].');" class="btn btn-danger col-3 col-md-2">删除</button></div>
 							</div>
 							</div>
 							</div>';
 			echo($output);
 		}
-		echo("</div>");
-		unset($e);
+			echo("</div>");
+			unset($e);
 	}
 }
 

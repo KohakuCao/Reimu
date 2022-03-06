@@ -8,6 +8,7 @@ class User{
 	public $name;
 	public $sex;
 	public $phone;
+	public $wechat;
 	public $email;
 	public $identity;
 	public $qq;
@@ -15,13 +16,14 @@ class User{
 	public $introduction;
 	public $sign;
 
-	function updateObj($uid=0,$username="",$name="",$sex=0,$phone=0,$email="",$identity="",$qq=0,$school="",$introduction="",$sign=""){
+	function updateObj($uid=0,$username="",$name="",$sex=0,$phone=1145140,$wechat="",$email="example@nbmun.org",$identity="UNDEFINED000",$qq=0,$school="",$introduction="",$sign=""){
 		//更新对象属性
 		$this->uid=$uid;
 		$this->username=$username;
 		$this->name=$name;
 		$this->sex=$sex;
 		$this->phone=$phone;
+		$this->wechat=$wechat;
 		$this->email=$email;
 		if($identity!=""){
 		    $this->identity=strtoupper($identity);
@@ -126,11 +128,12 @@ class User{
 			return false;
 		}
 		$result=mysqli_fetch_array($query);
-		$this->updateObj($uid,$result["username"],$result["name"],intval($result["sex"]),intval($result["phone"]),$result["email"],$result["identity"],intval($result["qq"]),$result["school"],$result["introduction"],$result["sign"]);
+		$this->updateObj($uid,$result["username"],$result["name"],intval($result["sex"]),intval($result["phone"]),$result["wechat"],$result["email"],$result["identity"],intval($result["qq"]),$result["school"],$result["introduction"],$result["sign"]);
 		$query=mysqli_query($myConnect,"SELECT * FROM `info_display` WHERE `uid`=$uid;");
 		if(mysqli_num_rows($query)==0){
 			$display=[
 				"phone"=>0,
+				"wechat"=>0,
 				"email"=>0,
 				"qq"=>0,
 				"experience"=>0
@@ -142,20 +145,21 @@ class User{
 		return $display;
 	}
 	
-	function UpdateInfo($s=["phone"=>0,"email"=>0,"qq"=>0]){
+	function UpdateInfo($s=["phone"=>0,"wechat"=>0,"email"=>0,"qq"=>0]){
 		//修改资料
 		$uid=$this->uid;
 		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
 		$p=$s["phone"];
+		$w=$s["wechat"];
 		$e=$s["email"];
 		$q=$s["qq"];
 		$isDisplaySettingExist=mysqli_query($myConnect,"SELECT * FROM `info_display` WHERE `uid`=$uid;");
 		if(mysqli_num_rows($isDisplaySettingExist)==0){
-			mysqli_query($myConnect,"INSERT INTO `info_display` (uid,phone,email,qq) VALUES ($uid,$p,$e,$q);");
+			mysqli_query($myConnect,"INSERT INTO `info_display` (uid,phone,wechat,email,qq) VALUES ($uid,$p,$w,$e,$q);");
 		}else{
-			mysqli_query($myConnect,"UPDATE `info_display` SET `phone`=$p,`email`=$e,`qq`=$q WHERE `uid`=$uid;");
+			mysqli_query($myConnect,"UPDATE `info_display` SET `phone`=$p,`wechat`=$w,`email`=$e,`qq`=$q WHERE `uid`=$uid;");
 		}
-		if(mysqli_query($myConnect,"UPDATE `user` SET `sex`=$this->sex,`phone`=$this->phone,`email`='$this->email',`qq`=$this->qq,`school`='$this->school',`identity`='$this->identity',`school`='$this->school',`introduction`='$this->introduction',`sign`='$this->sign' WHERE `id`=$uid;")){
+		if(mysqli_query($myConnect,"UPDATE `user` SET `sex`=$this->sex,`phone`=$this->phone,`wechat`='$this->wechat',`email`='$this->email',`qq`=$this->qq,`school`='$this->school',`identity`='$this->identity',`school`='$this->school',`introduction`='$this->introduction',`sign`='$this->sign' WHERE `id`=$uid;")){
 			mysqli_close($myConnect);
 			return 1;
 		}else{
