@@ -84,9 +84,10 @@ class User{
 		}
 		$result=mysqli_fetch_array($query);
 		if(password_verify($password,$result["password"])){
+			$time=date("Y-m-d H:i:s",time());
 			$id=intval($result["id"]);
 			$_SESSION["uid"]=intval($result["id"]);
-			mysqli_query($myConnect,"UPDATE `user` SET `last_IP`='$ip' WHERE `id`=$id;");
+			mysqli_query($myConnect,"UPDATE `user` SET `last_IP`='$ip',`last_time`='$time' WHERE `id`=$id;");
 			mysqli_close($myConnect);
 			return 1;
 		}else{
