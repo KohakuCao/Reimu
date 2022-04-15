@@ -11,7 +11,7 @@ main {
 	flex: 1;
 }
 .logo{
-	min-height: 64px;
+	height: 64px;
 }
 .user-card{
 	height: 256px;

@@ -37,20 +37,96 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate" />
 <meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 <title><?php echo($user->name); ?> - Reimu模联名片</title>
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/css/space.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 <script type="application/javascript" src="/js/bootstrap.bundle.min.js"></script> 
-<script type="application/javascript" src="/js/jquery-3.6.0.min.js"></script> 
+<script type="application/javascript" src="/js/jquery-3.6.0.min.js"></script>
+<script type="application/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
 <script type="application/javascript" src="/js/space.js"></script>
+<script type="application/javascript">
+	if(is_weixn()&&window.location.href.includes("xn--")){
+        window.location.href=window.location.href.replace("xn--5nx.xn--9kq078c8zcrt4a.xn--fiqs8s","reimu.nbmun.cn");
+	}
+	var timestamp=<?php echo time(); ?>;
+	var randstr=getRandomString(8);
+	var url=window.location.href;
+	var ticket="";
+	var signature="";
+	$.post("/includes/query.php",{
+		f:"wt"
+	},function(data){
+		ticket=data;
+        $.post("/includes/query.php",{
+            f:"ws",
+            timestamp:timestamp,
+            randstr:randstr,
+            url:url,
+            ticket:ticket
+        },function(data){
+            signature=data;
+            wx.config({
+                debug: false,
+                appId: '<?php echo(WECHAT_APPID); ?>',
+                timestamp: timestamp, // 必填，生成签名的时间戳
+                nonceStr: randstr, // 必填，生成签名的随机串s
+                signature: signature,// 必填，签名
+                jsApiList: ["updateAppMessageShareData","updateTimelineShareData"] // 必填，需要使用的JS接口列表
+            });
+            wx.ready(function(){
+                wx.updateAppMessageShareData({
+                    title: '<?php echo($user->name); ?> - Reimu模联名片', // 分享标题
+                    desc: '<?php echo($user->sign); ?>', // 分享描述
+                    link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: 'https://'+document.domain+'/storage/avatar/<?php echo($avatar); ?>', // 分享图标
+                    success: function () {
+
+                    }
+                });
+                wx.updateTimelineShareData({
+                    title: '<?php echo($user->name); ?> - Reimu模联名片', // 分享标题
+                    link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: 'https://'+document.domain+'/storage/avatar/<?php echo($avatar); ?>', // 分享图标
+                    success: function () {
+
+                    }
+                });
+            });
+        });
+	});
+
+</script>
 </head>
 
 <body>
+<?php
+if(isset($_SESSION["uid"])){
+	if($_SESSION["uid"]==$uid){
+		echo('<nav class="navbar navbar-expand-lg navbar-light bg-light shadow mb-3" role="navigation">
+	<div class="container-fluid"> <a class="navbar-brand" href="/"><img class="logo" src="/storage/reimu/logo.svg" /></a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<u1 class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="/">主面板</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">表白墙</a></li>
+				<li class="nav-item dropdown"> <a href="/" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"> 我的资料 <b class="caret"></b> </a>
+					<ul class="dropdown-menu">
+						<li><a  class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">退出登录</a></li>
+					</ul>
+				</li>
+			</u1>
+		</div>
+	</div>
+</nav>');
+	}
+}
+?>
 <main>
 	<div class="container-fluid p-0">
 		<div class="row justify-content-center">
-			<div class="card border-0 col-12 col-md-10 col-lg-9 shadow p-0" onMouseOver="addNb();" onMouseOut="delNb();">
+			<div class="card border-0 col-12 col-md-10 col-lg-9 shadow-cus p-0" onMouseOver="addNb();" onMouseOut="delNb();">
 				<img id="bgimg" class="card-img-top bgimg rounded" src="/storage/bg/<?php echo($bg); ?>" alt="Card image"/>
 				<div class="px-5 py-3 card-body text-white rounded card-img-overlay">
 					<div class="row"> <img class="rounded-circle p-0 col-3 img-shadow" style="height:96px;width:96px;" src="/storage/avatar/<?php echo($avatar); ?>">
@@ -140,11 +216,28 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 		</div>
 	</div>
 </main>
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="logoutModalLabel">退出登录</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p>您即将退出登录。</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-danger" onClick="Logout();">退出</button>
+			</div>
+		</div>
+	</div>
+</div>
 <footer class="mt-5" style="bottom: 0; width: 100%">
 	<p class="text-center"><a href="/login">获取我的模联名片</a></p>
-	<div class="container-fluid bg-dark text-white" style="height: 96px;z-index:-999">
-		<h5 class="px-auto text-center">Reimu模联名片</h5>
-		<p class="text-center">由星云娘 ~DevTeam~ 开发</p>
+	<div class="container-fluid bg-dark text-white" style="height: 108px;z-index:-999">
+		<h5 class="px-auto text-center">灵Reimu 模联名片</h5>
+		<p class="text-center">由星云娘 ~DevTeam~ 开发<br/><a href="https://beian.miit.gov.cn">京ICP备2022009339号-3</a><br/><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802039245"><img src="https://nbmun.cn/wp-content/uploads/2022/04/2022-04-14_23-12-54_472354.png">京公网安备 11010802039245号</a></p>
 	</div>
 </footer>
 	<script type="application/javascript">$("#qr").attr("src","https://api.qrserver.com/v1/create-qr-code/?data="+window.location.href+"&size=512x512");</script>

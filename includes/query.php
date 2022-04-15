@@ -2,7 +2,8 @@
 session_start();
 require_once($_SERVER["DOCUMENT_ROOT"]."includes/user.class.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."includes/upload.class.php");
-//ini_set("display_errors","no");
+require_once($_SERVER["DOCUMENT_ROOT"]."includes/wechat.class.php");
+ini_set("display_errors","no");
 if($_POST["f"]=="Check"){
 	if(isset($_SESSION["uid"])){
 		$uid=$_SESSION["uid"];
@@ -199,5 +200,21 @@ if($_POST["f"]=="UpdateBg"){
 	if($ava->UpdateBackground($uid)){
 		header("Location:/");
 	}
+}
+
+if($_POST["f"]=="wt"){
+	$wechat=new Wechat();
+	$ticket=$wechat->outputTicket();
+	echo($ticket);
+}
+
+if($_POST["f"]=="ws"){
+	$timestamp=$_POST["timestamp"];
+	$randstr=$_POST["randstr"];
+	$url=$_POST["url"];
+	$ticket=$_POST["ticket"];
+	$wechat=new Wechat();
+	$sign=$wechat->sign($timestamp,$randstr,$ticket,$url);
+	echo($sign);
 }
 ?>

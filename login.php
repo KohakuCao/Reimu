@@ -41,11 +41,12 @@ if(isset($_GET["for"])){
 		</div>
 	</main>
 	<footer style="bottom: 0; width: 100%">
-	<div class="container-fluid text-white page-footer" style="height: 128px;z-index:-999">
-		<h5 class="px-auto text-center">灵Reimu 综合用户中心</h5>
-		<p class="text-center">由星云娘DevTeam开发<br />背景人物与Logo设计均源自东方Project，其版权归上海爱丽丝幻乐团与ZUN所有<br />背景图自<a href="https://www.pixiv.net/artworks/34844544">https://www.pixiv.net/artworks/34844544</a></p>
+	<div class="container-fluid text-white page-footer" style="height: 152px;z-index:-999">
+		<h5 class="px-auto text-center">灵Reimu 用户中心</h5>
+		<p class="text-center">由星云娘~DevTeam~开发，背景与Logo均源自东方Project，著作权归上海爱丽丝幻乐团与ZUN所有<br />背景图自<a href="https://www.pixiv.net/artworks/80453394">https://www.pixiv.net/artworks/80453394</a><br /><a href="https://beian.miit.gov.cn">京ICP备2022009339号-3</a><br/><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802039245"><img src="https://nbmun.cn/wp-content/uploads/2022/04/2022-04-14_23-12-54_472354.png">京公网安备 11010802039245号</a></p>
+
 	</div>
-	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 style="display: none;" src="//music.163.com/outchain/player?type=2&id=41652392&auto=1&height=66"></iframe>
+	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 style="display: none;" src="//music.163.com/outchain/player?type=2&id=774476&auto=1&height=66"></iframe>
 	</footer>
 	<script type="application/javascript">toLogin();</script>
 </body>
