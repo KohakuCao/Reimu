@@ -114,7 +114,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 										<option id="sex0" value="0" <?php if($user->sex==0){echo("selected");} ?>>---建议使用生物学性别---</option>
 										<option id="sex1" value="1" <?php if($user->sex==1){echo("selected");} ?>>男</option>
 										<option id="sex2" value="2" <?php if($user->sex==2){echo("selected");} ?>>女</option>
-										<option id="sex3" value="3" <?php if($user->sex==3){echo("selected");} ?>>魂魄妖梦</option>
+										<!--<option id="sex3" value="3" <?php if($user->sex==3){echo("selected");} ?>>魂魄妖梦</option>-->
 									</select>
 								</div>
 								<div class="mb-1">

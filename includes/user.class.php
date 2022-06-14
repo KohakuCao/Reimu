@@ -88,6 +88,18 @@ class User{
 			$id=intval($result["id"]);
 			$_SESSION["uid"]=intval($result["id"]);
 			mysqli_query($myConnect,"UPDATE `user` SET `last_IP`='$ip',`last_time`='$time' WHERE `id`=$id;");
+			$q=mysqli_query($myConnect,"SELECT * FROM `oauth` WHERE `uid`=$id;");
+			if(mysqli_num_rows($q)>0){
+				$time=time();
+				$code=md5(rand());
+				$token=hash("sha512",$id.$code.$time);
+				mysqli_query($myConnect,"UPDATE `oauth` SET `time`=$time,`code`='$code',`token`='$token' WHERE `uid`=$id;");
+			}else{
+				$time=time();
+				$code=md5(rand());
+				$token=hash("sha512",$id.$code.$time);
+				mysqli_query($myConnect,"INSERT INTO `oauth` (`uid`,`code`,`token`,`time`) VALUES ($id,'$code','$token',$time);");
+			}
 			mysqli_close($myConnect);
 			return 1;
 		}else{
@@ -105,7 +117,7 @@ class User{
 			$check=mysqli_fetch_array($check);
 			if(strtotime($check["reg_time"])+strtotime("+1day")>time()){
 				mysqli_close($myConnect);
-				return 0;
+				return 2;
 			}
 		}
 		$password=password_hash($password,PASSWORD_BCRYPT,["cost"=>10]);
@@ -240,6 +252,89 @@ class User{
 		}else{
 			mysqli_close($myConnect);
 			return 0;
+		}
+	}
+
+	function GetOauthCode(){
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		$q=mysqli_query($myConnect,"SELECT * FROM `oauth` WHERE `uid`=$this->uid;");
+		$data=mysqli_fetch_array($q);
+		return($data["code"]);
+	}
+
+	function GetOauthToken($code){
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		$q=mysqli_query($myConnect,"SELECT * FROM `oauth` WHERE `code`='$code';");
+		$data=mysqli_fetch_array($q);
+		if(time()>$data["time"]+43200){
+			return false;
+		}else{
+			$output=[
+				"uid"=>$data["uid"],
+				"token"=>$data["token"]
+			];
+			return($output);
+		}
+	}
+
+	function GetMedal(){
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		$query=mysqli_query($myConnect,"SELECT * FROM `user_medal` WHERE `uid`=$this->uid;");
+		$medals_info=array();
+		if(mysqli_num_rows($query)>0){
+			while($row=mysqli_fetch_array($query)){
+				$mid=$row["mid"];
+				$q=mysqli_query($myConnect,"SELECT * FROM `medal` WHERE `id`=$mid;");
+				$medal_info=mysqli_fetch_array($q);
+				$medal=[
+					"mid"=>$medal_info["id"],
+					"description"=>$medal_info["description"]
+
+				];
+				$medals_info[]=$medal;
+			}
+		}
+		mysqli_close($myConnect);
+		if($medals_info!=[]){
+			return($medals_info);
+		}else{
+			return 0;
+		}
+	}
+
+	function GetJson($token,$uid){
+		$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB,MY_PORT);
+		$q=mysqli_query($myConnect,"SELECT * FROM `oauth` WHERE `token`='$token' AND `uid`=$this->uid ;");
+		if(mysqli_num_rows($q)>0){
+			mysqli_close($myConnect);
+			$this->updateObj(uid:$uid);
+			$this->GetInfo();
+			if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/avatar/" . $this->uid . ".gif" ) ) {
+				$avatar = $this->uid . ".gif";
+			} elseif ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/avatar/" . $this->uid . ".png" ) ) {
+				$avatar = $this->uid . ".png";
+			} else {
+				$avatar = "0.png";
+			}
+			$arr=[
+				"uid"=>intval($this->uid),
+				"name"=>$this->name,
+				"username"=>$this->username,
+				"avatar"=>$avatar,
+				"sex"=>$this->sex,
+				"identity"=>$this->identity,
+				"school"=>$this->school,
+				"phone"=>$this->phone,
+				"email"=>$this->email,
+				"qq"=>$this->qq,
+				"wechat"=>$this->wechat,
+				"sign"=>$this->sign,
+				"introduction"=>$this->introduction
+			];
+			return json_encode($arr);
+		}else{
+			mysqli_close($myConnect);
+			return json_encode(["Err"=>0]);
 		}
 	}
 }

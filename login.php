@@ -1,13 +1,37 @@
 <!doctype html>
 <?php
 session_start();
-require($_SERVER['DOCUMENT_ROOT']."config.php");
+require_once($_SERVER['DOCUMENT_ROOT']."config.php");
 $_SESSION["ip"] = $_SERVER['REMOTE_ADDR'];
-if (isset($_SESSION["uid"])) {
-	header("Location: /");
-}
-if(isset($_GET["for"])){
-	$for=$_GET["for"];
+
+if(isset($_GET["app"])&&isset($_GET["redirect"])){
+	$app=strtolower($_GET["app"]);
+	$redirect=$_GET["redirect"];
+	$myConnect=mysqli_connect(MY_HOST,MY_USER,MY_PASS,MY_DB);
+	if(mysqli_num_rows(mysqli_query($myConnect,"SELECT * FROM `oauth_app` WHERE `app`='$app';"))==0){
+		header("Location: /403.html");
+	}
+	if (isset($_SESSION["uid"])) {
+		$uid=intval($_SESSION["uid"]);
+		$q=mysqli_query($myConnect,"SELECT * FROM `oauth` WHERE `uid`=$uid;");
+		if(mysqli_num_rows($q)>0){
+			$time=time();
+			$code=md5(rand());
+			mysqli_query($myConnect,"UPDATE `oauth` SET `time`=$time,`code`='$code' WHERE `uid`=$uid;");
+			header("Location:".$redirect."?code=".$code);
+		}else{
+			$time=time();
+			$code=md5(rand());
+			$token=hash("sha512",$uid.$code.$time);
+			mysqli_query($myConnect,"INSERT INTO `oauth` (`uid`,`code`,`token`,`time`) VALUES ($uid,'$code','$token',$time);");
+			header("Location:".$redirect."?code=".$code);
+		}
+	}
+	mysqli_close($myConnect);
+}else{
+	if (isset($_SESSION["uid"])) {
+		header("Location: /");
+	}
 }
 ?>
 <html>
@@ -20,7 +44,20 @@ if(isset($_GET["for"])){
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 	<script type="application/javascript" src="/js/bootstrap.bundle.min.js"></script>
 	<script type="application/javascript" src="/js/jquery-3.6.0.min.js"></script>
-	<script type="application/javascript">var TC_APPID=<?php echo(TC_APPID); ?>;</script>
+	<script type="application/javascript">
+		var TC_APPID=<?php echo(TC_APPID); ?>;
+		<?php
+		if(isset($_GET["app"])&&isset($_GET["redirect"])){
+			echo('
+			var app="'.$app.'";
+			var redirect="'.$redirect.'";
+			var oauth=true;
+			');
+		}else{
+			echo("var oauth=false;");
+		}
+		?>
+	</script>
 	<script type="application/javascript" src="/js/login.js"></script>
 	<script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
 </head>

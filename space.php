@@ -41,7 +41,7 @@ if ( file_exists( $_SERVER[ "DOCUMENT_ROOT" ] . "storage/bg/" . $uid . ".jpg" ) 
 <title><?php echo($user->name); ?> - Reimu模联名片</title>
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/css/space.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.2/font/bootstrap-icons.min.css">
 <script type="application/javascript" src="/js/bootstrap.bundle.min.js"></script> 
 <script type="application/javascript" src="/js/jquery-3.6.0.min.js"></script>
 <script type="application/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
@@ -156,6 +156,20 @@ if(isset($_SESSION["uid"])){
 				<h4 class="py-2 mt-4 mx-2">个人简介</h4>
 				<hr class="my-2 mx-2" />
 				<p class="py-2 mx-2"><?php echo(str_replace("\n","<br />",$user->introduction)); ?></p>
+				<h4 class="py-2 mt-4 mx-2">勋章墙</h4>
+				<hr class="my-2 mx-2" />
+				<?php
+				$medals=$user->GetMedal();
+				if($medals!=0){
+					echo('<div class="row my-1 mx-2">');
+					foreach($medals as $m){
+						echo('<img class="px-1 col-6 col-md-3 mb-1" src="/storage/medal/'.$m["mid"].'.png" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$m["description"].'" />');
+					}
+					echo('</div>');
+				}else{
+					echo('<p class="py-2 mx-2"><i class="bi bi-x-circle-fill"></i>'.$user->name."尚未获得任何勋章".'</p>');
+				}
+				?>
 				<h4 class="py-2 mt-4 mx-2">联系方式</h4>
 				<hr class="my-2 mx-2" />
 				<p class="py-2 mx-2">
@@ -194,7 +208,7 @@ if(isset($_SESSION["uid"])){
 							$output='<div class="accordion-item">
 							<h2 class="accordion-header" id="expHead'.$e["id"].'">
 							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp'.$e["id"].'" aria-expanded="false" aria-controls="exp'.$e["id"].'">
-							'.$e["name"].'
+							'.strtoupper($e["name"]).'
 							</button>
 							</h2>
 							<div id="exp'.$e["id"].'" class="accordion-collapse collapse" aria-labelledby="expHead'.$e["id"].'">
@@ -240,6 +254,12 @@ if(isset($_SESSION["uid"])){
 		<p class="text-center">由星云娘 ~DevTeam~ 开发<br/><a href="https://beian.miit.gov.cn">京ICP备2022009339号-3</a><br/><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802039245"><img src="https://nbmun.cn/wp-content/uploads/2022/04/2022-04-14_23-12-54_472354.png">京公网安备 11010802039245号</a></p>
 	</div>
 </footer>
-	<script type="application/javascript">$("#qr").attr("src","https://api.qrserver.com/v1/create-qr-code/?data="+window.location.href+"&size=512x512");</script>
+	<script type="application/javascript">
+		$("#qr").attr("src","https://api.qrserver.com/v1/create-qr-code/?data="+window.location.href+"&size=512x512");
+        var tooltipTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+	</script>
 </body>
 </html>

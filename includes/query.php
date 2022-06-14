@@ -1,5 +1,6 @@
 <?php
 session_start();
+header('Access-Control-Allow-Origin:*');
 require_once($_SERVER["DOCUMENT_ROOT"]."includes/user.class.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."includes/upload.class.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."includes/wechat.class.php");
@@ -112,7 +113,7 @@ if($_POST["f"]=="GetExp"){
 			$output = '<div class="accordion-item">
 							<h2 class="accordion-header" id="expHead' . $e["id"] . '">
 							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exp' . $e["id"] . '" aria-expanded="false" aria-controls="exp' . $e["id"] . '">
-							' . $e["name"] . '
+							' . strtoupper($e["name"]) . '
 							</button>
 							</h2>
 							<div id="exp' . $e["id"] . '" class="accordion-collapse collapse" aria-labelledby="expHead' . $e["id"] . '" >
@@ -216,5 +217,39 @@ if($_POST["f"]=="ws"){
 	$wechat=new Wechat();
 	$sign=$wechat->sign($timestamp,$randstr,$ticket,$url);
 	echo($sign);
+}
+
+if($_POST["f"]=="oauth_code"){
+	if(isset($_SESSION["uid"])){
+		$uid=$_SESSION["uid"];
+		$user=new User();
+		$user->updateObj(uid: $uid);
+		echo($user->GetOauthCode());
+	}else{
+		echo(0);
+	}
+}
+
+if($_POST["f"]=="oauth_token"){
+	$code=$_POST["code"];
+	$user=new User();
+	$token=$user->GetOauthToken($code);
+	if(!$token){
+		$data=[
+			"err"=>1
+		];
+		echo(json_encode($data));
+	}else{
+		echo(json_encode($token));
+	}
+}
+
+if($_POST["f"]=="InfoJson"){
+	$token=$_POST["token"];
+	$uid=$_POST["uid"];
+	$searchUid=$_POST["uid_search"];
+	$user=new User();
+	$user->updateObj(uid: intval($uid));
+	echo($user->GetJson($token,$searchUid));
 }
 ?>
